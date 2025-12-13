@@ -1,174 +1,318 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ayvalık Sohbet</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: "Poppins", sans-serif;
-      background: #0b0c10 url('logo.jpg') center/cover no-repeat fixed;
-      color: white;
-      overflow: hidden;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yerliyapayzeka.xyz - Beta ve Sezon 3 Açılışı</title>
+    <style>
+        /* Genel Stil Sıfırlama ve Font */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a2e; /* Koyu Mavi/Mor Arka Plan */
+            color: #e4e6eb; /* Açık Yazı Rengi */
+            text-align: center;
+            line-height: 1.6;
+        }
 
-    /* Kar animasyonu */
-    .snowflake {
-      position: fixed;
-      top: -10px;
-      color: white;
-      font-size: 1em;
-      animation: fall 10s linear infinite;
-    }
+        /* Başlık Alanı (Hero Section) */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://picsum.photos/1920/1080?random=1'); /* Buraya kendi arka plan görselinizi koyun! */
+            background-size: cover;
+            background-position: center;
+            padding: 100px 20px;
+            min-height: 50vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
 
-    @keyframes fall {
-      0% { transform: translateY(0) rotate(0deg); }
-      100% { transform: translateY(100vh) rotate(360deg); }
-    }
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            color: #ffcc00; /* Sarı Vurgu */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
 
-    .rules, .chat {
-      display: none;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 90%;
-      max-width: 600px;
-      background: rgba(0, 0, 0, 0.7);
-      border-radius: 16px;
-      padding: 20px;
-      text-align: center;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-    }
+        /* Geri Sayım Sayacı Stili */
+        #countdown-container {
+            margin-top: 30px;
+            padding: 15px 30px;
+            background-color: rgba(26, 26, 46, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            max-width: 500px;
+        }
 
-    .btn {
-      background: #ff4757;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      font-size: 1em;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .btn:hover {
-      background: #ff6b81;
-    }
+        #countdown-container h2 {
+            font-size: 1.5em;
+            color: #00ff99; /* Yeşil Vurgu */
+            margin-top: 0;
+        }
 
-    .chat-box {
-      display: flex;
-      flex-direction: column;
-      height: 400px;
-      overflow-y: auto;
-      margin-bottom: 10px;
-      padding: 10px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-    }
+        #countdown-timer {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #ffcc00;
+        }
 
-    .message {
-      text-align: left;
-      margin-bottom: 8px;
-    }
-    .message.user {
-      text-align: right;
-      color: #1dd1a1;
-    }
+        /* IP Adresi Alanı */
+        .ip-container {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #3b3b59; /* Koyu Gri/Mavi */
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
-    form {
-      display: flex;
-      gap: 10px;
-    }
-    input {
-      flex: 1;
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-      outline: none;
-    }
-  </style>
+        .ip-container:hover {
+            background-color: #4a4a6e;
+        }
+
+        .ip-container span {
+            font-size: 1.5em;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .ip-container button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .ip-container button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Bilgi ve Menü Alanı */
+        .content-section {
+            padding: 40px 20px;
+        }
+
+        .server-info, .social-links, .menu-links {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #2e2e4e;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .server-info h2, .social-links h2 {
+            color: #00ff99;
+            border-bottom: 2px solid #3b3b59;
+            padding-bottom: 10px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .info-item p {
+            margin: 5px 0;
+            font-size: 1.1em;
+        }
+
+        .info-item strong {
+            color: #ffcc00;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Buton Stili */
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            margin: 10px;
+            background-color: #ffcc00;
+            color: #1a1a2e;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #e6b800;
+            transform: translateY(-2px);
+        }
+        
+        /* Sosyal Medya İkonları */
+        .social-icons a {
+            font-size: 1.2em;
+            padding: 10px 20px;
+            background-color: #1a1a2e;
+            border-radius: 5px;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+        
+        .social-icons a.tiktok { color: #fe2c55; }
+        .social-icons a.discord { color: #7289da; }
+
+        /* Mobil Uyumluluk */
+        @media (max-width: 600px) {
+            .hero h1 {
+                font-size: 2em;
+            }
+
+            #countdown-timer {
+                font-size: 2em;
+            }
+
+            .ip-container span {
+                font-size: 1.2em;
+            }
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<div id="snow"></div>
+    <header class="hero">
+        <h1>YERLİYAPAYZEKA.XYZ</h1>
+        <p style="font-size: 1.2em;">Minecraft Topluluğuna Hoş Geldiniz!</p>
 
-<div class="rules" id="rules">
-  <h2>Site Kullanım Uyarısı</h2>
-  <p>
-    Bu siteyi kullanarak tüm etkileşimlerinizin kayıt altına alınabileceğini ve
-    gerektiğinde yasal mercilerle paylaşılabileceğini kabul etmiş olursunuz.
-    <br><br>
-    Devam etmek için onay verin.
-  </p>
-  <button class="btn" id="accept">Onayla</button>
-  <button class="btn" id="decline" style="background:#555;">Reddet</button>
-</div>
+        <div id="countdown-container">
+            <h2 id="countdown-title">Yükleniyor...</h2>
+            <div id="countdown-timer">00:00:00:00</div>
+        </div>
 
-<div class="chat" id="chat">
-  <h2>Ayvalık Sohbet</h2>
-  <div class="chat-box" id="chatBox"></div>
-  <form id="chatForm">
-    <input id="message" placeholder="Mesaj yaz..." />
-    <button class="btn" type="submit">Gönder</button>
-  </form>
-</div>
+        <div class="ip-container" onclick="copyIP()">
+            <span>yerliyapayzeka.xyz</span>
+            <button id="copy-btn">Kopyala</button>
+        </div>
 
-<script>
-  // Kar animasyonu
-  for (let i = 0; i < 60; i++) {
-    const snow = document.createElement('div');
-    snow.classList.add('snowflake');
-    snow.textContent = '❄';
-    snow.style.left = Math.random() * 100 + 'vw';
-    snow.style.fontSize = Math.random() * 10 + 10 + 'px';
-    snow.style.animationDuration = Math.random() * 5 + 5 + 's';
-    document.body.appendChild(snow);
-  }
+    </header>
 
-  const rules = document.getElementById('rules');
-  const chat = document.getElementById('chat');
-  const snow = document.getElementById('snow');
+    <div class="content-section">
+        
+        <div class="menu-links">
+            <a href="MAĞAZA_LİNKİNİZ" target="_blank" class="btn">🛒 Mağaza</a>
+            <a href="KURALLAR_SAYFASI_LİNKİNİZ" class="btn">📜 Kurallar</a>
+            <a href="DESTEK_DİSCORD_KANALI_LİNKİNİZ" target="_blank" class="btn">🛠️ Destek Al</a>
+        </div>
 
-  // 5 saniye sonra kurallar ekranı
-  setTimeout(() => {
-    rules.style.display = 'block';
-  }, 5000);
+        <div class="server-info">
+            <h2>🌍 Bağlantı Bilgileri</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <strong>Java IP Adresi</strong>
+                    <p>yerliyapayzeka.xyz</p>
+                </div>
+                <div class="info-item">
+                    <strong>Önerilen Sürüm</strong>
+                    <p>1.21.4</p>
+                </div>
+                <div class="info-item">
+                    <strong>Desteklenen Sürümler</strong>
+                    <p>1.16.5 - 1.21.6</p>
+                </div>
+                <div class="info-item">
+                    <strong>Bedrock Erişimi</strong>
+                    <p>Var (Crossplay)</p>
+                </div>
+                <div class="info-item">
+                    <strong>Bedrock Port</strong>
+                    <p>29397</p>
+                </div>
+            </div>
+        </div>
 
-  document.getElementById('accept').onclick = () => {
-    rules.style.display = 'none';
-    chat.style.display = 'block';
-  };
+        <div class="social-links">
+            <h2>📢 Bizi Takip Edin</h2>
+            <div class="social-icons">
+                <a href="https://www.tiktok.com/@wuffymucuk" target="_blank" class="tiktok">TikTok: @wuffymucuk</a>
+                <a href="DİSCORD_DAVET_LİNKİNİZ" target="_blank" class="discord">Discord Sunucusu</a>
+            </div>
+        </div>
 
-  document.getElementById('decline').onclick = () => {
-    rules.innerHTML = "<h2>Üzgünüz</h2><p>Onaylamadan giriş yapamazsınız.</p>";
-  };
+    </div>
 
-  // Sohbet sistemi
-  const form = document.getElementById("chatForm");
-  const box = document.getElementById("chatBox");
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const input = document.getElementById("message");
-    const msg = input.value.trim();
-    if (!msg) return;
-    box.innerHTML += `<div class="message user">${msg}</div>`;
-    input.value = "";
+    <script>
+        // --- 1. Geri Sayım Mantığı ---
+        const BETA_START_DATE = new Date('2025-12-14T14:00:00').getTime(); // 14 Aralık 14:00
+        const SEZON_3_START_DATE = new Date('2026-01-10T21:00:00').getTime(); // 10 Ocak 21:00
 
-    const replyEl = document.createElement("div");
-    replyEl.className = "message";
-    replyEl.textContent = "Düşünüyor...";
-    box.appendChild(replyEl);
+        const countdownElement = document.getElementById('countdown-timer');
+        const titleElement = document.getElementById('countdown-title');
+        
+        function updateCountdown() {
+            const now = new Date().getTime();
+            let targetTime = null;
+            let title = "";
 
-    const res = await fetch("/api/ayvalik", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: msg }),
-    });
-    const data = await res.json();
-    replyEl.textContent = data.reply || "Bir hata oluştu.";
-    box.scrollTop = box.scrollHeight;
-  });
-</script>
+            if (now < BETA_START_DATE) {
+                // Beta'ya kalan süre
+                targetTime = BETA_START_DATE;
+                title = "🚀 BETA AÇILIŞINA KALAN SÜRE";
+            } else if (now >= BETA_START_DATE && now < SEZON_3_START_DATE) {
+                // Beta başladı, Sezon 3'e kalan süre (tampon süre dahil)
+                targetTime = SEZON_3_START_DATE;
+                title = "👑 SEZON 3 AKTİFLİĞİNE KALAN SÜRE";
+            } else {
+                // Sezon 3 başladı
+                titleElement.textContent = "🏆 SEZON 3 AKTİF! İYİ EĞLENCELER.";
+                countdownElement.textContent = "BAĞLAN!";
+                clearInterval(interval); // Sayacı durdur
+                return;
+            }
+
+            const distance = targetTime - now;
+
+            // Zaman hesaplamaları
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Ekrana yazdırma (2 haneli format)
+            const format = (val) => String(val).padStart(2, '0');
+            
+            titleElement.textContent = title;
+            countdownElement.textContent = 
+                `${format(days)} GÜN : ${format(hours)} SA : ${format(minutes)} DK : ${format(seconds)} SN`;
+        }
+
+        // Sayacı her saniye güncelle
+        updateCountdown(); 
+        const interval = setInterval(updateCountdown, 1000); 
+
+        // --- 2. IP Kopyalama Mantığı ---
+        function copyIP() {
+            const ip = "yerliyapayzeka.xyz";
+            const copyButton = document.getElementById('copy-btn');
+            
+            // Gizli input oluşturarak kopyalama işlemi
+            const tempInput = document.createElement('input');
+            tempInput.value = ip;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            // Kullanıcıya geri bildirim
+            copyButton.textContent = "KOPYALANDI!";
+            setTimeout(() => {
+                copyButton.textContent = "Kopyala";
+            }, 1500);
+        }
+    </script>
 </body>
 </html>
