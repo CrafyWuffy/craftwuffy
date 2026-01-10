@@ -14,39 +14,42 @@
     <style>
         :root { --p: #0054a6; --bg: #f4f7f9; --dark-card: #1a1d21; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: #333; }
-        .hero { background: linear-gradient(135deg, #001f3f 0%, #0054a6 100%); color: white; padding: 80px 0; position: relative; }
-        .hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 40px; background: var(--bg); clip-path: polygon(0 100%, 100% 100%, 100% 0); }
-        .ip-badge { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 12px 25px; border-radius: 50px; cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; }
         .navbar { background: rgba(255,255,255,0.9) !important; backdrop-filter: blur(10px); box-shadow: 0 4px 30px rgba(0,0,0,0.05); }
-        .nav-link { font-weight: 700; color: #444 !important; cursor: pointer; }
+        .nav-link { font-weight: 700; color: #444 !important; border-radius: 8px; transition: 0.2s; cursor: pointer; }
         .nav-link.active { color: var(--p) !important; border-bottom: 3px solid var(--p); }
-        .content-card { border: none; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); margin-bottom: 30px; }
-        .post-box { background: #fff; border-radius: 15px; padding: 20px; margin-bottom: 15px; border-left: 5px solid var(--p); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .hero { background: linear-gradient(135deg, #001f3f 0%, #0054a6 100%); color: white; padding: 100px 0; position: relative; overflow: hidden; }
+        .hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 50px; background: var(--bg); clip-path: polygon(0 100%, 100% 100%, 100% 0); }
+        .ip-badge { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 15px 30px; border-radius: 50px; cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; }
+        .content-card { border: none; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); transition: 0.3s; margin-bottom: 30px; }
         .sidebar-card { background: var(--dark-card); color: white; border-radius: 20px; padding: 25px; }
+        .status-pill { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1); }
         .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 8px; }
         .dot-online { background: #2fb344; box-shadow: 0 0 10px #2fb344; }
         .dot-offline { background: #d63939; }
+        /* Yeni Post Görünümü */
+        .live-post { background: #fff; border-radius: 15px; padding: 15px; margin-bottom: 15px; border-left: 5px solid var(--p); animation: fadeIn 0.5s; }
     </style>
 </head>
 <body>
 
 <div class="hero text-center">
-    <div class="container animate__animated animate__fadeIn">
-        <span class="badge bg-warning text-dark mb-3 fw-bold p-2 px-3 shadow">🚀 BU AKŞAM 20:00'DA AÇILIYOR!</span>
-        <h1 class="display-4 fw-extrabold mb-2">SUNUCU ADI</h1>
+    <div class="container animate__animated animate__fadeInDown">
+        <span class="badge bg-warning text-dark mb-3 fw-bold p-2 px-3 shadow">🚀 BU AKŞAM AÇILIYOR!</span>
+        <h1 class="display-3 fw-extrabold mb-2">SUNUCU ADI</h1>
         <div class="ip-badge" id="copyIp" data-clipboard-text="94.154.46.130">
-            <i class="fa fa-copy me-2"></i> <span class="h4 mb-0 fw-bold">94.154.46.130</span>
-            <span class="ms-3 badge bg-success" id="heroCount">0/0</span>
+            <i class="fa fa-copy me-3"></i><span class="h3 mb-0 fw-bold">94.154.46.130</span>
+            <span class="ms-3 badge bg-success" id="heroCount">...</span>
         </div>
     </div>
 </div>
 
-<nav class="navbar navbar-expand-lg sticky-top py-2">
+<nav class="navbar navbar-expand-lg navbar-light sticky-top py-3">
     <div class="container justify-content-center">
-        <div class="navbar-nav gap-3">
-            <a class="nav-link active" onclick="nav('anasayfa')"><i class="fa fa-home-alt me-1"></i> Anasayfa</a>
-            <a class="nav-link" onclick="nav('forum')"><i class="fa fa-comments me-1"></i> Forum</a>
-            <a class="nav-link" onclick="nav('magaza')"><i class="fa fa-shopping-bag me-1"></i> Mağaza</a>
+        <div class="navbar-nav gap-2">
+            <a class="nav-link active" onclick="show('anasayfa')"><i class="fa fa-home-alt me-2"></i>Anasayfa</a>
+            <a class="nav-link" onclick="show('forum')"><i class="fa fa-comments me-2"></i>Forum</a>
+            <a class="nav-link" onclick="show('magaza')"><i class="fa fa-shopping-bag me-2"></i>Mağaza</a>
+            <a class="nav-link" onclick="show('destek')"><i class="fa fa-headset me-2"></i>Destek</a>
         </div>
     </div>
 </nav>
@@ -54,44 +57,46 @@
 <div class="container my-5">
     <div class="row">
         <div class="col-lg-8">
-            <div id="anasayfa_sec" class="section_div">
-                <div class="card content-card p-5">
+            <div id="anasayfa_sec">
+                <div class="card content-card p-5 animate__animated animate__fadeInLeft">
                     <h2 class="fw-bold mb-4">📰 Son Haberler</h2>
                     <img src="https://images.unsplash.com/photo-1627375103210-999330965e64?q=80&w=1000" class="img-fluid rounded-4 mb-3">
-                    <h3 class="fw-bold">Hazır mısın?</h3>
-                    <p class="text-muted">Bu akşam açılışta büyük ödüller dağıtılacaktır!</p>
+                    <h3 class="fw-bold">Büyük Açılışa Hazır mısın?</h3>
+                    <p class="text-muted fs-5">Bu akşam saat 20:00'da kapılarımızı açıyoruz. Java 1.21.4 ile bekliyoruz!</p>
                 </div>
             </div>
 
-            <div id="forum_sec" class="section_div" style="display:none;">
+            <div id="forum_sec" style="display:none;">
                 <div class="card content-card p-4">
-                    <h2 class="fw-bold mb-4">💬 Oyuncu Mesajları</h2>
+                    <h2 class="fw-bold mb-4">💬 Topluluk Forumu</h2>
                     <div class="bg-light p-4 rounded-4 mb-4">
+                        <h5 class="fw-bold mb-3">Bir Mesaj Bırak</h5>
                         <div class="row g-2">
                             <div class="col-md-4"><input type="text" id="f_user" class="form-control" placeholder="Oyuncu Adın"></div>
-                            <div class="col-md-8"><input type="text" id="f_msg" class="form-control" placeholder="Mesajın..."></div>
-                            <button onclick="submitPost()" class="btn btn-primary w-100 fw-bold mt-2">Mesaj Gönder</button>
+                            <div class="col-md-8"><input type="text" id="f_msg" class="form-control" placeholder="Ne söylemek istersin?"></div>
+                            <div class="col-12 mt-2"><button onclick="savePost()" class="btn btn-primary w-100 fw-bold">Gönder</button></div>
                         </div>
                     </div>
-                    <div id="forum_load" class="text-center p-5 d-none"><div class="spinner-border text-primary"></div></div>
-                    <div id="forum_posts_list"></div>
+                    <div id="post_loading" class="text-center d-none"><div class="spinner-border text-primary"></div></div>
+                    <div id="dynamic_posts"></div>
                 </div>
             </div>
-            
-            <div id="magaza_sec" class="section_div" style="display:none;">
-                <div class="row g-4 text-center">
-                    <div class="col-md-6"><div class="card content-card p-4"><h3>VIP</h3><p>50 TL</p><button class="btn btn-primary w-100">Satın Al</button></div></div>
-                    <div class="col-md-6"><div class="card content-card p-4"><h3>REPAIR</h3><p>30 TL</p><button class="btn btn-primary w-100">Satın Al</button></div></div>
+
+            <div id="magaza_sec" style="display:none;">
+                <h2 class="fw-bold mb-4">🛒 Mağaza</h2>
+                <div class="row g-4">
+                    <div class="col-md-6"><div class="card content-card p-4 text-center"><h4>VIP</h4><p class="h2 text-primary">50 TL</p><button class="btn btn-primary rounded-pill w-100">Satın Al</button></div></div>
+                    <div class="col-md-6"><div class="card content-card p-4 text-center"><h4>REPAIR</h4><p class="h2 text-primary">30 TL</p><button class="btn btn-primary rounded-pill w-100">Satın Al</button></div></div>
                 </div>
             </div>
         </div>
 
         <div class="col-lg-4">
             <div class="sidebar-card shadow-lg sticky-top" style="top: 100px;">
-                <h4 class="fw-bold mb-4 border-bottom pb-2">📊 Durum</h4>
-                <div class="mb-3"><div id="admin-dot" class="dot dot-offline"></div> <span id="admin-status">KURUCU ÇEVRİMDİŞİ</span></div>
-                <div class="mb-4 text-success fw-bold"><i class="fa fa-users me-2"></i> Aktif: <span id="side-count">0/0</span></div>
-                <a href="https://discord.gg/XAhyeXNjKr" class="btn btn-primary w-100 py-3 fw-bold rounded-pill">DİSCORD</a>
+                <h4 class="fw-bold mb-4 border-bottom border-secondary pb-3">🌐 Sunucu Bilgileri</h4>
+                <div class="status-pill"><div class="small opacity-50 mb-1">KURUCU</div><div id="admin-dot" class="dot dot-offline"></div> <span id="admin-status">...</span></div>
+                <div class="status-pill"><div class="small opacity-50 mb-1">CANLI OYUNCU</div><span id="side-count" class="fw-bold text-success">0 / 0</span></div>
+                <a href="https://discord.gg/XAhyeXNjKr" class="btn btn-primary w-100 py-3 fw-bold rounded-pill shadow-lg">DİSCORD</a>
             </div>
         </div>
     </div>
@@ -102,60 +107,66 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.0/sweetalert2.all.min.js"></script>
 
 <script>
-    new ClipboardJS('#copyIp').on('success', () => Swal.fire('IP Kopyalandı!', '', 'success'));
+    // IP Kopyalama
+    new ClipboardJS('#copyIp').on('success', () => Swal.fire('Kopyalandı!', 'IP adresi panoya eklendi.', 'success'));
 
-    function nav(target) {
-        $('.section_div').hide();
-        $(`#${target}_sec`).fadeIn();
+    // Navigasyon Kontrolü
+    function show(id) {
+        $('#anasayfa_sec, #forum_sec, #magaza_sec, #destek_sec').hide();
+        $(`#${id}_sec`).fadeIn();
         $('.nav-link').removeClass('active');
-        $(`a[onclick="nav('${target}')"]`).addClass('active');
-        if(target === 'forum') getPosts();
+        $(`a[onclick="show('${id}')"]`).addClass('active');
+        if(id === 'forum') loadPosts();
     }
 
-    function getPosts() {
-        $('#forum_load').removeClass('d-none');
+    // VERİTABANINDAN MESAJLARI ÇEK
+    function loadPosts() {
+        $('#post_loading').removeClass('d-none');
         $.get('/api/forum', function(data) {
-            let h = '';
+            let html = '';
             data.forEach(p => {
-                h += `<div class="post-box animate__animated animate__fadeInUp">
-                    <div class="d-flex justify-content-between align-items-center mb-1">
-                        <span class="fw-bold text-primary"><i class="fa fa-user-circle me-1"></i> ${p.username}</span>
-                        <small class="text-muted">${new Date(p.created_at).toLocaleTimeString('tr-TR')}</small>
+                html += `
+                <div class="live-post shadow-sm">
+                    <div class="d-flex justify-content-between">
+                        <strong class="text-primary"><i class="fa fa-user me-1"></i> ${p.username}</strong>
+                        <small class="text-muted">${new Date(p.created_at).toLocaleTimeString()}</small>
                     </div>
-                    <div class="fs-5">${p.content}</div>
+                    <div class="mt-2 text-dark">${p.content}</div>
                 </div>`;
             });
-            $('#forum_posts_list').html(h);
-            $('#forum_load').addClass('d-none');
+            $('#dynamic_posts').html(html || '<p class="text-center text-muted">Henüz mesaj yok.</p>');
+            $('#post_loading').addClass('d-none');
         });
     }
 
-    function submitPost() {
-        const u = $('#f_user').val(), m = $('#f_msg').val();
-        if(!u || !m) return Swal.fire('Hata', 'Tüm alanları doldur!', 'error');
-        
+    // VERİTABANINA MESAJ KAYDET
+    function savePost() {
+        const user = $('#f_user').val(), msg = $('#f_msg').val();
+        if(!user || !msg) return Swal.fire('Hata', 'Lütfen alanları doldurun!', 'error');
+
         $.ajax({
             url: '/api/forum', type: 'POST', contentType: 'application/json',
-            data: JSON.stringify({ username: u, content: m }),
+            data: JSON.stringify({ username: user, content: msg }),
             success: function() {
                 $('#f_msg').val('');
-                getPosts();
-                Swal.fire('Başarılı!', 'Mesajın gönderildi.', 'success');
+                loadPosts();
+                Swal.fire('Başarılı', 'Mesajın yayınlandı!', 'success');
             }
         });
     }
 
+    // Canlı İstatistikler
     function sync() {
         $.getJSON('https://api.mcstatus.io/v2/status/java/94.154.46.130', d => {
             if(d.online) {
-                let txt = d.players.online + " / " + d.players.max;
-                $('#side-count').text(txt); $('#heroCount').text(txt);
+                let text = d.players.online + " / " + d.players.max;
+                $('#side-count, #heroCount').text(text);
             }
         });
         $.getJSON('https://api.lanyard.rest/v1/users/812040098388377671', r => {
-            let s = r.data.discord_status !== 'offline';
-            $('#admin-dot').attr('class', 'dot ' + (s ? 'dot-online' : 'dot-offline'));
-            $('#admin-status').text(s ? 'KURUCU AKTİF' : 'KURUCU ÇEVRİMDİŞİ');
+            const active = r.data.discord_status !== 'offline';
+            $('#admin-dot').attr('class', 'dot ' + (active ? 'dot-online' : 'dot-offline'));
+            $('#admin-status').text(active ? 'KURUCU AKTİF' : 'KURUCU ÇEVRİMDİŞİ');
         });
     }
     sync(); setInterval(sync, 20000);
