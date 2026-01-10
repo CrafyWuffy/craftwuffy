@@ -26,8 +26,8 @@
         .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 8px; }
         .dot-online { background: #2fb344; box-shadow: 0 0 10px #2fb344; }
         .dot-offline { background: #d63939; }
-        /* Yeni Post Görünümü */
         .live-post { background: #fff; border-radius: 15px; padding: 15px; margin-bottom: 15px; border-left: 5px solid var(--p); animation: fadeIn 0.5s; }
+        .user-head { width: 32px; height: 32px; border-radius: 5px; margin-right: 10px; vertical-align: middle; }
     </style>
 </head>
 <body>
@@ -44,12 +44,17 @@
 </div>
 
 <nav class="navbar navbar-expand-lg navbar-light sticky-top py-3">
-    <div class="container justify-content-center">
-        <div class="navbar-nav gap-2">
+    <div class="container">
+        <div class="navbar-nav mx-auto gap-2 align-items-center">
             <a class="nav-link active" onclick="show('anasayfa')"><i class="fa fa-home-alt me-2"></i>Anasayfa</a>
             <a class="nav-link" onclick="show('forum')"><i class="fa fa-comments me-2"></i>Forum</a>
             <a class="nav-link" onclick="show('magaza')"><i class="fa fa-shopping-bag me-2"></i>Mağaza</a>
             <a class="nav-link" onclick="show('destek')"><i class="fa fa-headset me-2"></i>Destek</a>
+            <div id="authArea" class="ms-lg-4">
+                <button class="btn btn-primary rounded-pill px-4 fw-bold" onclick="loginModal()">
+                    <i class="fa fa-sign-in me-2"></i>Giriş Yap
+                </button>
+            </div>
         </div>
     </div>
 </nav>
@@ -62,41 +67,55 @@
                     <h2 class="fw-bold mb-4">📰 Son Haberler</h2>
                     <img src="https://images.unsplash.com/photo-1627375103210-999330965e64?q=80&w=1000" class="img-fluid rounded-4 mb-3">
                     <h3 class="fw-bold">Büyük Açılışa Hazır mısın?</h3>
-                    <p class="text-muted fs-5">Bu akşam saat 20:00'da kapılarımızı açıyoruz. Java 1.21.4 ile bekliyoruz!</p>
+                    <p class="text-muted fs-5">Bu akşam saat 20:00'da kapılarımızı açıyoruz. Oyundaki şifrenle siteye giriş yapabilirsin!</p>
                 </div>
             </div>
 
             <div id="forum_sec" style="display:none;">
                 <div class="card content-card p-4">
                     <h2 class="fw-bold mb-4">💬 Topluluk Forumu</h2>
-                    <div class="bg-light p-4 rounded-4 mb-4">
-                        <h5 class="fw-bold mb-3">Bir Mesaj Bırak</h5>
-                        <div class="row g-2">
-                            <div class="col-md-4"><input type="text" id="f_user" class="form-control" placeholder="Oyuncu Adın"></div>
-                            <div class="col-md-8"><input type="text" id="f_msg" class="form-control" placeholder="Ne söylemek istersin?"></div>
-                            <div class="col-12 mt-2"><button onclick="savePost()" class="btn btn-primary w-100 fw-bold">Gönder</button></div>
+                    
+                    <div id="forumInputArea">
+                        <div class="alert alert-info rounded-4">
+                            <i class="fa fa-info-circle me-2"></i> Mesaj yazmak için önce <b>Giriş Yapmalısın.</b>
                         </div>
                     </div>
+
                     <div id="post_loading" class="text-center d-none"><div class="spinner-border text-primary"></div></div>
-                    <div id="dynamic_posts"></div>
+                    <div id="dynamic_posts" class="mt-4"></div>
                 </div>
             </div>
-
+            
             <div id="magaza_sec" style="display:none;">
-                <h2 class="fw-bold mb-4">🛒 Mağaza</h2>
+                <h2 class="fw-bold mb-4 text-center">🛒 Sunucu Marketi</h2>
                 <div class="row g-4">
-                    <div class="col-md-6"><div class="card content-card p-4 text-center"><h4>VIP</h4><p class="h2 text-primary">50 TL</p><button class="btn btn-primary rounded-pill w-100">Satın Al</button></div></div>
-                    <div class="col-md-6"><div class="card content-card p-4 text-center"><h4>REPAIR</h4><p class="h2 text-primary">30 TL</p><button class="btn btn-primary rounded-pill w-100">Satın Al</button></div></div>
+                    <div class="col-md-6">
+                        <div class="card content-card p-4 text-center">
+                            <i class="fa fa-crown fa-3x text-warning mb-3"></i>
+                            <h4>VIP Üyelik</h4>
+                            <p class="price mb-3">50 TL</p>
+                            <button class="btn btn-primary rounded-pill w-100">Satın Al</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="col-lg-4">
             <div class="sidebar-card shadow-lg sticky-top" style="top: 100px;">
-                <h4 class="fw-bold mb-4 border-bottom border-secondary pb-3">🌐 Sunucu Bilgileri</h4>
-                <div class="status-pill"><div class="small opacity-50 mb-1">KURUCU</div><div id="admin-dot" class="dot dot-offline"></div> <span id="admin-status">...</span></div>
-                <div class="status-pill"><div class="small opacity-50 mb-1">CANLI OYUNCU</div><span id="side-count" class="fw-bold text-success">0 / 0</span></div>
-                <a href="https://discord.gg/XAhyeXNjKr" class="btn btn-primary w-100 py-3 fw-bold rounded-pill shadow-lg">DİSCORD</a>
+                <h4 class="fw-bold mb-4 border-bottom border-secondary pb-3">🌐 Canlı Durum</h4>
+                <div class="status-pill">
+                    <div class="small opacity-50 mb-1 text-uppercase">Kurucu</div>
+                    <div class="d-flex align-items-center">
+                        <div id="admin-dot" class="dot dot-offline"></div>
+                        <span id="admin-status" class="fw-bold">Yükleniyor...</span>
+                    </div>
+                </div>
+                <div class="status-pill">
+                    <div class="small opacity-50 mb-1 text-uppercase">Aktif Oyuncu</div>
+                    <div class="fw-bold text-success" id="side-count">0 / 0</div>
+                </div>
+                <a href="https://discord.gg/XAhyeXNjKr" class="btn btn-primary w-100 py-3 fw-bold rounded-pill shadow">DİSCORD</a>
             </div>
         </div>
     </div>
@@ -107,42 +126,110 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.0/sweetalert2.all.min.js"></script>
 
 <script>
-    // IP Kopyalama
-    new ClipboardJS('#copyIp').on('success', () => Swal.fire('Kopyalandı!', 'IP adresi panoya eklendi.', 'success'));
+    // --- TEMEL SİSTEMLER ---
+    new ClipboardJS('#copyIp').on('success', () => Swal.fire('IP Kopyalandı!', '', 'success'));
 
-    // Navigasyon Kontrolü
     function show(id) {
-        $('#anasayfa_sec, #forum_sec, #magaza_sec, #destek_sec').hide();
-        $(`#${id}_sec`).fadeIn();
         $('.nav-link').removeClass('active');
         $(`a[onclick="show('${id}')"]`).addClass('active');
+        $('#anasayfa_sec, #forum_sec, #magaza_sec, #destek_sec').hide();
+        $(`#${id}_sec`).fadeIn();
         if(id === 'forum') loadPosts();
     }
 
-    // VERİTABANINDAN MESAJLARI ÇEK
+    // --- GİRİŞ SİSTEMİ ---
+    function loginModal() {
+        Swal.fire({
+            title: 'Minecraft Girişi',
+            text: 'Oyundaki adın ve şifrenle gir.',
+            html: `
+                <input type="text" id="login-user" class="swal2-input" placeholder="Kullanıcı Adı">
+                <input type="password" id="login-pass" class="swal2-input" placeholder="Şifre">
+            `,
+            confirmButtonText: 'Giriş Yap',
+            preConfirm: () => {
+                const username = $('#login-user').val();
+                const password = $('#login-pass').val();
+                if(!username || !password) return Swal.showValidationMessage('Boş bırakma!');
+                return { username, password };
+            }
+        }).then((res) => {
+            if(res.isConfirmed) {
+                // API'ye gönder (api/login.js)
+                $.ajax({
+                    url: '/api/login',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(res.value),
+                    success: function(data) {
+                        localStorage.setItem('mc_user', data.username);
+                        Swal.fire('Hoş geldin!', data.username, 'success').then(() => location.reload());
+                    },
+                    error: () => Swal.fire('Hata', 'Şifre veya kullanıcı adı yanlış!', 'error')
+                });
+            }
+        });
+    }
+
+    function checkAuth() {
+        const user = localStorage.getItem('mc_user');
+        if(user) {
+            // Navbar'ı güncelle
+            $('#authArea').html(`
+                <div class="dropdown">
+                    <button class="btn btn-light rounded-pill dropdown-toggle fw-bold" data-bs-toggle="dropdown">
+                        <img src="https://minotar.net/helm/${user}/32" class="user-head"> ${user}
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item text-danger" href="#" onclick="logout()">Çıkış Yap</a></li>
+                    </ul>
+                </div>
+            `);
+            // Forum girişini aktif et
+            $('#forumInputArea').html(`
+                <div class="bg-light p-4 rounded-4 mb-4 shadow-sm border">
+                    <h5 class="fw-bold mb-3">Mesaj Yaz (Olarak: ${user})</h5>
+                    <div class="d-flex gap-2">
+                        <input type="text" id="f_msg" class="form-control" placeholder="Bir şeyler yaz...">
+                        <button onclick="savePost()" class="btn btn-primary px-4 fw-bold">Gönder</button>
+                    </div>
+                </div>
+            `);
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem('mc_user');
+        location.reload();
+    }
+
+    // --- FORUM SİSTEMİ ---
     function loadPosts() {
         $('#post_loading').removeClass('d-none');
         $.get('/api/forum', function(data) {
-            let html = '';
+            let h = '';
             data.forEach(p => {
-                html += `
+                h += `
                 <div class="live-post shadow-sm">
-                    <div class="d-flex justify-content-between">
-                        <strong class="text-primary"><i class="fa fa-user me-1"></i> ${p.username}</strong>
-                        <small class="text-muted">${new Date(p.created_at).toLocaleTimeString()}</small>
+                    <div class="d-flex align-items-center mb-2">
+                        <img src="https://minotar.net/helm/${p.username}/32" class="user-head">
+                        <div>
+                            <div class="fw-bold text-primary">${p.username}</div>
+                            <small class="text-muted">${new Date(p.created_at).toLocaleString()}</small>
+                        </div>
                     </div>
-                    <div class="mt-2 text-dark">${p.content}</div>
+                    <div class="ps-1">${p.content}</div>
                 </div>`;
             });
-            $('#dynamic_posts').html(html || '<p class="text-center text-muted">Henüz mesaj yok.</p>');
+            $('#dynamic_posts').html(h || '<p class="text-center">Henüz mesaj yok.</p>');
             $('#post_loading').addClass('d-none');
         });
     }
 
-    // VERİTABANINA MESAJ KAYDET
     function savePost() {
-        const user = $('#f_user').val(), msg = $('#f_msg').val();
-        if(!user || !msg) return Swal.fire('Hata', 'Lütfen alanları doldurun!', 'error');
+        const user = localStorage.getItem('mc_user');
+        const msg = $('#f_msg').val();
+        if(!msg) return;
 
         $.ajax({
             url: '/api/forum', type: 'POST', contentType: 'application/json',
@@ -150,26 +237,33 @@
             success: function() {
                 $('#f_msg').val('');
                 loadPosts();
-                Swal.fire('Başarılı', 'Mesajın yayınlandı!', 'success');
             }
         });
     }
 
-    // Canlı İstatistikler
+    // --- İSTATİSTİKLER ---
     function sync() {
         $.getJSON('https://api.mcstatus.io/v2/status/java/94.154.46.130', d => {
             if(d.online) {
-                let text = d.players.online + " / " + d.players.max;
-                $('#side-count, #heroCount').text(text);
+                let t = d.players.online + " / " + d.players.max;
+                $('#side-count, #heroCount').text(t);
             }
         });
         $.getJSON('https://api.lanyard.rest/v1/users/812040098388377671', r => {
-            const active = r.data.discord_status !== 'offline';
-            $('#admin-dot').attr('class', 'dot ' + (active ? 'dot-online' : 'dot-offline'));
-            $('#admin-status').text(active ? 'KURUCU AKTİF' : 'KURUCU ÇEVRİMDİŞİ');
+            const s = r.data.discord_status !== 'offline';
+            $('#admin-dot').attr('class', 'dot ' + (s ? 'dot-online' : 'dot-offline'));
+            $('#admin-status').text(s ? 'AKTİF' : 'ÇEVRİMDİŞİ');
         });
     }
-    sync(); setInterval(sync, 20000);
+
+    $(document).ready(() => {
+        checkAuth();
+        sync();
+        setInterval(sync, 30000);
+    });
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
