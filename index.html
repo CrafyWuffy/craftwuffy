@@ -1,383 +1,142 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>yerliyapayzeka.xyz - Türkiye'nin Yapay Zeka Sunucusu</title>
-    <link href="" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Minecraft Sunucusu | 1.21.4</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.min.css">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler.min.css">
+    
     <style>
-        /* Modern ve Oyun Odaklı CSS */
         :root {
-            --color-primary: #00bcd4; /* Turkuaz/Mavi Vurgu */
-            --color-secondary: #ff9800; /* Turuncu Vurgu */
-            --color-dark: #121212; /* Koyu Zemin */
-            --color-light: #f0f0f0;
-            --color-card: #1e1e1e;
+            --tblr-primary: #0054a6; /* Dosyadaki ana mavi tonu [cite: 2] */
+            font-family: 'Inter', sans-serif;
         }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--color-dark);
-            color: var(--color-light);
-            line-height: 1.6;
-        }
-
-        /* Navigasyon */
-        .navbar {
-            display: flex;
-            justify-content: center;
-            padding: 15px 30px;
-            background-color: rgba(18, 18, 18, 0.9);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .navbar a {
-            color: var(--color-light);
-            text-decoration: none;
-            margin: 0 15px;
-            padding: 5px 10px;
-            font-weight: 600;
-            transition: color 0.3s, background-color 0.3s;
-            border-radius: 4px;
-        }
-
-        .navbar a:hover {
-            color: var(--color-primary);
-        }
-
-        /* Hero Alanı */
-        .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://picsum.photos/1920/1080?random=2'); /* Arka Plan Görseli */
+        body { background-color: #f4f6fa; }
+        .header-banner {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://demo-site.leaderos.net/assets/flat/img/header-bg.png');
             background-size: cover;
-            background-position: center;
-            padding: 150px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            padding: 60px 0;
+            color: white;
             text-align: center;
         }
-
-        .hero h1 {
-            font-size: 4.5em;
-            margin: 0;
-            color: var(--color-primary);
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);
-            font-weight: 800;
-        }
-
-        .hero p {
-            font-size: 1.5em;
-            margin-top: 10px;
-            margin-bottom: 40px;
-        }
-        
-        /* Geri Sayım Stili */
-        #countdown-container {
-            margin-bottom: 40px;
-            padding: 20px 40px;
-            background-color: rgba(30, 30, 30, 0.9);
-            border: 2px solid var(--color-primary);
-            border-radius: 12px;
-            box-shadow: 0 0 25px rgba(0, 188, 212, 0.3);
-        }
-        
-        #countdown-container h2 {
-            margin: 0 0 10px 0;
-            color: var(--color-secondary);
-            font-size: 1.4em;
-            font-weight: 600;
-        }
-
-        #countdown-timer {
-            font-size: 3.5em;
-            font-weight: 800;
-            color: var(--color-light);
-            letter-spacing: 2px;
-        }
-
-        /* IP ve Buton Stili */
-        .ip-container {
-            background-color: var(--color-card);
-            padding: 15px 30px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            max-width: fit-content;
-            margin-top: 20px;
-        }
-        
-        .ip-container span {
-            font-size: 1.8em;
-            font-weight: 600;
-            margin-right: 20px;
-            color: var(--color-primary);
-        }
-        
-        .ip-container button {
-            background-color: var(--color-secondary);
-            color: var(--color-dark);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-weight: 600;
+        .copy-ip-box {
             cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            transition: 0.3s;
         }
-
-        .ip-container button:hover {
-            background-color: #e68a00;
-            transform: translateY(-2px);
-        }
-
-        /* İçerik Kartları */
-        .section-container {
-            padding: 60px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-size: 2.5em;
-            color: var(--color-primary);
-            border-bottom: 3px solid var(--color-card);
-            padding-bottom: 10px;
-            margin-bottom: 40px;
-            font-weight: 800;
-        }
-        
-        .grid-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            text-align: left;
-        }
-
-        .card {
-            background-color: var(--color-card);
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-            transition: transform 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            border-bottom: 4px solid var(--color-secondary);
-        }
-        
-        .card h3 {
-            color: var(--color-secondary);
-            font-size: 1.5em;
-            margin-top: 0;
-            border-bottom: 1px dashed var(--color-dark);
-            padding-bottom: 10px;
-        }
-
-        .card p strong {
-            color: var(--color-primary);
-        }
-
-        /* Sosyal Medya */
-        .social-links {
-            text-align: center;
-            margin-top: 40px;
-        }
-
-        .social-links a {
-            display: inline-block;
-            margin: 0 15px;
-            font-size: 1.2em;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-            font-weight: 600;
-        }
-
-        .social-links a.discord { background-color: #7289da; color: white; }
-        .social-links a.tiktok { background-color: #fe2c55; color: white; }
-
-        .social-links a:hover { opacity: 0.8; }
-        
-        /* Footer */
-        footer {
-            padding: 20px;
-            background-color: var(--color-card);
-            margin-top: 50px;
-            font-size: 0.9em;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 3em;
-            }
-            #countdown-timer {
-                font-size: 2.5em;
-            }
-            .ip-container span {
-                font-size: 1.2em;
-                margin-right: 10px;
-            }
-            .ip-container {
-                flex-direction: column;
-                padding: 15px;
-            }
-            .ip-container button {
-                margin-top: 10px;
-            }
-        }
+        .copy-ip-box:hover { background: rgba(255,255,255,0.2); }
+        .server-status { color: #bbb; font-size: 0.9rem; }
+        .nav-link-title { font-weight: 600; }
     </style>
 </head>
 <body>
 
-    <nav class="navbar">
-        <a href="#home">ANASAYFA</a>
-        <a href="#rules">KURALLAR</a>
-        <a href="#support">DESTEK</a>
-        <a href="MAĞAZA_LİNKİNİZ_BURAYA" target="_blank">MAĞAZA</a>
-    </nav>
-
-    <section class="hero" id="home">
-        <h1>YERLİYAPAYZEKA.XYZ</h1>
-        <p>Gelişmiş Mekanikleri ve Yapay Zeka Özellikleriyle Yeni Nesil Minecraft Deneyimi.</p>
-
-        <div id="countdown-container">
-            <h2 id="countdown-title">Yükleniyor...</h2>
-            <div id="countdown-timer">00 GÜN : 00 SA : 00 DK : 00 SN</div>
-        </div>
-
-        <div class="ip-container">
-            <span>yerliyapayzeka.xyz</span>
-            <button id="copy-btn" onclick="copyIP()">Bağlanmak İçin Kopyala</button>
-        </div>
-    </section>
-
-    <section class="section-container">
-        <h2 class="section-title">SUNUCU BİLGİLERİ</h2>
-        
-        <div class="grid-cards">
-            <div class="card">
-                <h3>Java Bağlantı</h3>
-                <p><strong>IP:</strong> yerliyapayzeka.xyz</p>
-                <p>Sunucuya Java Edition üzerinden bu IP ile bağlanabilirsiniz.</p>
-            </div>
-            <div class="card">
-                <h3>Sürüm Bilgisi</h3>
-                <p><strong>Önerilen:</strong> 1.21.4</p>
-                <p><strong>Desteklenen Aralık:</strong> 1.16.5 - 1.21.6</p>
-            </div>
-            <div class="card">
-                <h3>Bedrock Erişimi</h3>
-                <p><strong>Erişim:</strong> Mevcut (Crossplay)</p>
-                <p><strong>Port:</strong> 29397</p>
+<div class="page">
+    <div class="header-banner">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-4">
+                    <div class="copy-ip-box" id="copyIp" data-clipboard-text="94.154.46.130">
+                        <i class="fa-duotone fa-gamepad-console fa-2x me-3 text-primary"></i>
+                        <div class="text-start">
+                            <div class="server-status">
+                                <span id="onlineCount">Yükleniyor...</span> oyuncu aktif [cite: 5]
+                            </div>
+                            <div class="fw-bold fs-2">94.154.46.130</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h1 class="display-5 fw-black text-uppercase">SUNUCU ADI</h1>
+                    <p class="badge bg-primary fs-4">Sürüm: 1.21.4</p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <a href="#" class="text-white text-decoration-none">
+                        <div class="d-inline-block text-start me-3">
+                            <div class="server-status">Topluluğa Katıl</div>
+                            <div class="fw-bold">Discord Sunucumuz</div>
+                        </div>
+                        <i class="fab fa-discord fa-2x"></i>
+                    </a>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section class="section-container" id="rules">
-        <h2 class="section-title">📜 SUNUCU KURALLARI</h2>
-        <div class="card" style="text-align: left;">
-            <h3>Temel Kurallar</h3>
-            <ul>
-                <li><strong>1. Saygı ve Nezaket:</strong> Diğer oyunculara ve Yönetime karşı saygılı olun. Argo ve küfür yasaktır.</li>
-                <li><strong>2. Hile ve Exploit:</strong> Her türlü hile yazılımı (Client) veya sunucu açığının (Exploit) kullanılması kalıcı ban sebebidir.</li>
-                <li><strong>3. Reklam:</strong> Başka sunucuların veya platformların reklamını yapmak yasaktır.</li>
-                <li><strong>4. Hesap Güvenliği:</strong> Hesap güvenliğiniz size aittir. Paylaşım ve takaslardan doğan zararlar sunucu sorumluluğunda değildir.</li>
-                <li><strong>5. Yapı Kuralları:</strong> Spawn etrafında veya haritanın akışını bozacak şekilde çirkin yapılar/otomatik sistemler kurmak yasaktır. (Sunucunun yapısına göre detaylandırınız)</li>
+    <header class="navbar navbar-expand-md navbar-light d-print-none shadow-sm bg-white">
+        <div class="container">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item active"><a class="nav-link" href="#"><span class="nav-link-title"><i class="fa fa-home me-1"></i> Anasayfa</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><span class="nav-link-title"><i class="fa fa-shopping-cart me-1"></i> Mağaza</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><span class="nav-link-title"><i class="fa fa-comments me-1"></i> Forum</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><span class="nav-link-title"><i class="fa fa-life-ring me-1"></i> Destek</span></a></li>
             </ul>
         </div>
-    </section>
+    </header>
 
-    <section class="section-container" id="support">
-        <h2 class="section-title">🛠️ DESTEK VE İLETİŞİM</h2>
-        <div class="grid-cards">
-            <div class="card">
-                <h3>Discord Destek</h3>
-                <p>En hızlı destek için Discord sunucumuza katılın ve bir **Ticket** açın.</p>
-                <a href="DİSCORD_DAVET_LİNKİNİZ" target="_blank" class="btn discord" style="background-color: #7289da; color: white;">Discord'a Git</a>
-            </div>
-            <div class="card">
-                <h3>TikTok Takip</h3>
-                <p>Sunucu yenilikleri, eğlenceli anlar ve etkinlik duyuruları için bizi TikTok'tan takip edin.</p>
-                <a href="https://www.tiktok.com/@wuffymucuk" target="_blank" class="btn tiktok" style="background-color: #fe2c55; color: white;">TikTok: @wuffymucuk</a>
+    <div class="page-wrapper py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card mb-3 shadow-sm">
+                        <div class="card-body">
+                            <h2 class="h3 mb-3 border-bottom pb-2">Sunucu Aktif!</h2>
+                            <p>Sunucumuz <b>1.21.4</b> sürümü ile açılmıştır. Kesintisiz oyun deneyimi için hemen bağlanabilirsiniz.</p>
+                            <div class="alert alert-important alert-warning shadow-sm">
+                                <i class="fa fa-exclamation-triangle me-2"></i> Sunucumuzda <b>Bedrock girişleri kapalıdır</b>, sadece Java Edition ile giriş yapılabilir.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow-sm mb-3">
+                        <div class="card-header bg-primary text-white"><h3 class="card-title">En Çok Kredi Yükleyenler</h3></div>
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item d-flex justify-content-between"><span>LeaderOS</span> <b>100 TL</b></div>
+                            <div class="list-group-item d-flex justify-content-between"><span>Oyuncu123</span> <b>50 TL</b></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <footer>
-        <p>&copy; 2025 yerliyapayzeka.xyz. Tüm hakları saklıdır. | Minecraft Sunucusu.</p>
+    <footer class="footer bg-white border-top py-4">
+        <div class="container text-center text-muted">
+            <p>&copy; 2026 Tüm Hakları Saklıdır. [cite: 23]</p>
+            <p><small>Powered by <strong>LeaderOS</strong></small></p>
+        </div>
     </footer>
+</div>
 
-    <script>
-        // Lütfen tarihleri güncelleyiniz! (Yıl-Ay-Gün T Saat:Dakika:Saniye)
-        // Şu anki tarih: 13 Aralık 2025 15:42
-        const BETA_START_DATE = new Date('2025-12-14T14:00:00').getTime(); // 14 Aralık 14:00
-        const SEZON_3_START_DATE = new Date('2026-01-10T21:00:00').getTime(); // 10 Ocak 21:00
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.min.js"></script>
 
-        const countdownElement = document.getElementById('countdown-timer');
-        const titleElement = document.getElementById('countdown-title');
-        
-        function updateCountdown() {
-            const now = new Date().getTime();
-            let targetTime = null;
-            let title = "";
+<script>
+    // IP Kopyalama Fonksiyonu [cite: 26, 30]
+    var clipboard = new ClipboardJS('#copyIp');
+    clipboard.on('success', function(e) {
+        Swal.fire({
+            title: 'Başarılı!',
+            text: 'Sunucu adresi kopyalandı!',
+            type: 'success',
+            confirmButtonText: 'Tamam'
+        });
+    });
 
-            if (now < BETA_START_DATE) {
-                targetTime = BETA_START_DATE;
-                title = "🚀 BETA AÇILIŞINA KALAN SÜRE";
-            } else if (now >= BETA_START_DATE && now < SEZON_3_START_DATE) {
-                // Beta başladı (14 Aralık 14:00), Sezon 3'e kalan süre gösteriliyor.
-                targetTime = SEZON_3_START_DATE;
-                title = "👑 SEZON 3 AKTİFLİĞİNE KALAN SÜRE";
-            } else {
-                // Sezon 3 başladı
-                titleElement.textContent = "🏆 SEZON 3 AKTİF!";
-                countdownElement.textContent = "Hemen Bağlanın ve Oynamaya Başlayın!";
-                clearInterval(interval);
-                return;
-            }
+    // Basit Oyuncu Sayısı Simülasyonu
+    document.getElementById('onlineCount').innerText = Math.floor(Math.random() * 100) + "/200";
+</script>
 
-            const distance = targetTime - now;
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            const format = (val) => String(val).padStart(2, '0');
-            
-            titleElement.textContent = title;
-            countdownElement.textContent = 
-                `${format(days)} GÜN : ${format(hours)} SA : ${format(minutes)} DK : ${format(seconds)} SN`;
-        }
-
-        updateCountdown(); 
-        const interval = setInterval(updateCountdown, 1000); 
-
-        // IP Kopyalama Fonksiyonu
-        function copyIP() {
-            const ip = "yerliyapayzeka.xyz";
-            const copyButton = document.getElementById('copy-btn');
-            
-            navigator.clipboard.writeText(ip).then(() => {
-                // Başarılı kopyalama sonrası buton metnini değiştir
-                copyButton.textContent = "KOPYALANDI!";
-                setTimeout(() => {
-                    copyButton.textContent = "Bağlanmak İçin Kopyala";
-                }, 1500);
-            }).catch(err => {
-                console.error('Kopyalama başarısız:', err);
-                alert('Kopyalama Başarısız. IP: yerliyapayzeka.xyz');
-            });
-        }
-    </script>
 </body>
-    </html>
-            
+</html>
