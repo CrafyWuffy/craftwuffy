@@ -86,20 +86,36 @@
                 </div>
             </div>
             
-            <div id="magaza_sec" style="display:none;">
-                <h2 class="fw-bold mb-4 text-center">🛒 Sunucu Marketi</h2>
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <div class="card content-card p-4 text-center">
-                            <i class="fa fa-crown fa-3x text-warning mb-3"></i>
-                            <h4>VIP Üyelik</h4>
-                            <p class="price mb-3">50 TL</p>
-                            <button class="btn btn-primary rounded-pill w-100">Satın Al</button>
-                        </div>
-                    </div>
-                </div>
+<div id="magaza_sec" style="display:none;">
+    <h2 class="fw-bold mb-4 text-center">🛒 Sunucu Marketi</h2>
+    <div class="row g-4 justify-content-center">
+        <div class="col-md-5 col-lg-4">
+            <div class="card content-card p-4 text-center border-top border-warning border-5">
+                <i class="fa fa-crown fa-3x text-warning mb-3"></i>
+                <h4 class="fw-bold">VIP Üyelik</h4>
+                <p class="text-muted">Özel yetkiler ve kozmetikler.</p>
+                <p class="h3 fw-bold text-primary mb-3">50 TL</p>
+                <button class="btn btn-warning rounded-pill w-100 fw-bold shadow-sm" onclick="buyItem('VIP Üyelik', 50)">Satın Al</button>
             </div>
         </div>
+
+        <div class="col-md-5 col-lg-4">
+            <div class="card content-card p-4 text-center border-top border-info border-5 shadow">
+                <div class="position-absolute top-0 end-0 m-3">
+                    <span class="badge bg-info animate__animated animate__pulse animate__infinite">POPÜLER</span>
+                </div>
+                <i class="fa fa-hammer-war fa-3x text-info mb-3"></i>
+                <h4 class="fw-bold">1 Haftalık Repair</h4>
+                <p class="text-muted">Eşyalarını anında onar!</p>
+                <div class="bg-light rounded-3 p-2 mb-3">
+                    <small class="text-uppercase fw-bold text-success"><i class="fa fa-infinity me-1"></i> Kullanım Limiti Yok</small>
+                </div>
+                <p class="h3 fw-bold text-primary mb-3">20 TL</p>
+                <button class="btn btn-info text-white rounded-pill w-100 fw-bold shadow-sm" onclick="buyItem('1 Haftalık Repair', 20)">Satın Al</button>
+            </div>
+        </div>
+    </div>
+</div>
 
         <div class="col-lg-4">
             <div class="sidebar-card shadow-lg sticky-top" style="top: 100px;">
