@@ -15,7 +15,6 @@
         :root { --tblr-primary: #0054a6; }
         body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; scroll-behavior: smooth; }
         
-        /* Header & Hero Area */
         .hero-section {
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1627375103210-999330965e64?q=80&w=2070&auto=format&fit=crop');
             background-size: cover; background-position: center;
@@ -27,25 +26,27 @@
             padding: 20px; border-radius: 12px; cursor: pointer; transition: 0.3s;
             border: 1px solid rgba(255,255,255,0.2); display: inline-block;
         }
-        .copy-ip-card:hover { background: rgba(255,255,255,0.2); transform: translateY(-3px); }
 
-        /* Discord & Durum Kutuları */
         .status-card { background: #23272a; color: white; border-radius: 12px; }
         .status-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-right: 8px; }
         .online { background: #2fb344; box-shadow: 0 0 10px #2fb344; }
         .offline { background: #d63939; }
+
+        /* Mağaza Kartları */
+        .store-card { border: none; border-radius: 15px; transition: 0.3s; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .store-card:hover { transform: translateY(-10px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .price-tag { font-size: 2rem; font-weight: 800; color: var(--tblr-primary); }
         
-        .nav-link { font-weight: 600; color: #444 !important; transition: 0.3s; }
-        .nav-link:hover { color: var(--tblr-primary) !important; }
-        section { padding: 60px 0; }
+        .opening-badge { background: #ff922b; color: white; padding: 10px 20px; border-radius: 50px; font-weight: 800; display: inline-block; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body>
 
     <div class="hero-section text-center">
         <div class="container">
+            <div class="opening-badge mb-3"><i class="fa fa-clock me-2"></i>BU AKŞAM AÇILIYOR!</div>
             <h1 class="display-3 fw-bold mb-3">SUNUCU ADI</h1>
-            <p class="fs-2 mb-4">En Gelişmiş 1.21.4 Survival Deneyimi</p>
             
             <div class="copy-ip-card" id="copyIp" data-clipboard-text="94.154.46.130">
                 <div class="small text-uppercase opacity-75 mb-1">Tıkla IP Kopyala</div>
@@ -58,14 +59,12 @@
     </div>
 
     <nav class="navbar navbar-expand-md navbar-light bg-white sticky-top shadow-sm">
-        <div class="container">
-            <div class="collapse navbar-collapse" id="mainNav">
-                <ul class="navbar-nav mx-auto">
-                    <li class="nav-item"><a class="nav-link px-4" href="#"><i class="fa fa-home me-2 text-primary"></i>Anasayfa</a></li>
-                    <li class="nav-item"><a class="nav-link px-4" href="#magaza"><i class="fa fa-shopping-cart me-2 text-primary"></i>Mağaza</a></li>
-                    <li class="nav-item"><a class="nav-link px-4" href="#forum"><i class="fa fa-comments me-2 text-primary"></i>Forum</a></li>
-                    <li class="nav-item"><a class="nav-link px-4" href="#destek"><i class="fa fa-life-ring me-2 text-primary"></i>Destek</a></li>
-                </ul>
+        <div class="container text-center">
+            <div class="navbar-nav mx-auto">
+                <a class="nav-link px-4 fw-bold" href="#">Anasayfa</a>
+                <a class="nav-link px-4 fw-bold" href="#magaza">Mağaza</a>
+                <a class="nav-link px-4 fw-bold" href="#forum">Forum</a>
+                <a class="nav-link px-4 fw-bold" href="#destek">Destek</a>
             </div>
         </div>
     </nav>
@@ -74,16 +73,54 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="card shadow-sm border-0 p-4 mb-4">
-                    <h2 class="fw-bold mb-4">📢 Son Haberler</h2>
-                    <h3>1.21.4 Güncellemesi Yayında!</h3>
-                    <p>Sunucumuz en güncel Minecraft sürümüne taşınmıştır. Keyifli oyunlar dileriz.</p>
+                    <h2 class="fw-bold border-bottom pb-3 mb-4">📢 Sunucu Duyurusu</h2>
+                    <div class="p-3 bg-light rounded border-start border-warning border-4">
+                        <h3 class="text-warning fw-bold">Büyük Açılış: BU AKŞAM!</h3>
+                        <p class="mb-0">Hazırlıklar tamamlandı! Bu akşam kapılarımızı sonuna kadar açıyoruz. Elmas P4 setler ve VIP avantajlarıyla rekabete hazır ol!</p>
+                    </div>
+                </div>
+
+                <h2 id="magaza" class="fw-bold mb-4">🛒 Sunucu Mağazası</h2>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="card store-card">
+                            <div class="card-body text-center p-4">
+                                <div class="mb-3"><i class="fa fa-crown fa-3x text-warning"></i></div>
+                                <h3 class="fw-bold">VIP Üyelik</h3>
+                                <ul class="list-unstyled text-start my-4">
+                                    <li><i class="fa fa-check text-success me-2"></i> <strong>Elmas P4 SET Hediye!</strong></li>
+                                    <li><i class="fa fa-check text-success me-2"></i> /fly Uçma Yetkisi</li>
+                                    <li><i class="fa fa-check text-success me-2"></i> Özel Sohbet Rengi</li>
+                                    <li><i class="fa fa-check text-success me-2"></i> Dolu Sunucuya Giriş</li>
+                                </ul>
+                                <div class="price-tag mb-3">50 TL</div>
+                                <button class="btn btn-primary w-100 fw-bold">SATIN AL</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card store-card">
+                            <div class="card-body text-center p-4">
+                                <div class="mb-3"><i class="fa fa-tools fa-3x text-secondary"></i></div>
+                                <h3 class="fw-bold">1 Haftalık Repair</h3>
+                                <p class="text-muted">Eşyalarını tamir etmek hiç bu kadar kolay olmamıştı!</p>
+                                <ul class="list-unstyled text-start my-4">
+                                    <li><i class="fa fa-check text-success me-2"></i> 7 Gün Boyunca Geçerli</li>
+                                    <li><i class="fa fa-check text-success me-2"></i> /repair Yetkisi</li>
+                                    <li><i class="fa fa-check text-success me-2"></i> Sınırsız Kullanım</li>
+                                </ul>
+                                <div class="price-tag mb-3">30 TL</div>
+                                <button class="btn btn-primary w-100 fw-bold">SATIN AL</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="col-md-4">
                 <div class="card status-card p-4 shadow-lg mb-4">
                     <h3 class="fw-bold mb-4 border-bottom pb-2">📊 Canlı Durum</h3>
-                    
                     <div class="d-flex align-items-center mb-4 bg-dark p-3 rounded" style="background: rgba(0,0,0,0.2) !important;">
                         <div id="admin-dot" class="status-dot offline"></div>
                         <div>
@@ -91,7 +128,6 @@
                             <div id="admin-status" class="fw-bold">YÜKLENİYOR...</div>
                         </div>
                     </div>
-
                     <div class="d-flex align-items-center mb-4 bg-dark p-3 rounded" style="background: rgba(0,0,0,0.2) !important;">
                         <i class="fa fa-gamepad-modern me-3 text-primary fa-lg"></i>
                         <div>
@@ -99,7 +135,6 @@
                             <div id="online-count" class="fw-bold text-success">0 / 0</div>
                         </div>
                     </div>
-
                     <a href="https://discord.gg/XAhyeXNjKr" target="_blank" class="btn btn-primary w-100 fw-bold">DİSCORD'A KATIL</a>
                 </div>
             </div>
@@ -111,7 +146,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.0/sweetalert2.all.min.js"></script>
 
     <script>
-        // IP Kopyalama
         new ClipboardJS('#copyIp').on('success', function() {
             Swal.fire({ title: 'Kopyalandı!', text: 'IP: 94.154.46.130', icon: 'success' });
         });
@@ -120,7 +154,6 @@
             const ip = "94.154.46.130";
             const id = "812040098388377671";
 
-            // Minecraft Oyuncu Sayısı Güncelleme
             $.getJSON(`https://api.mcstatus.io/v2/status/java/${ip}`, function(data) {
                 if (data.online) {
                     const statusText = data.players.online + " / " + data.players.max;
@@ -129,7 +162,6 @@
                 }
             });
 
-            // Discord Kurucu Durumu Güncelleme
             $.getJSON(`https://api.lanyard.rest/v1/users/${id}`, function(res) {
                 if (res.data.discord_status !== "offline") {
                     $('#admin-dot').addClass('online').removeClass('offline');
@@ -141,7 +173,6 @@
             });
         }
 
-        // Sayfa yüklenince ve 20 saniyede bir çalıştır
         updateAllData();
         setInterval(updateAllData, 20000);
     </script>
