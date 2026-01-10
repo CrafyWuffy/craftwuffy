@@ -11,83 +11,106 @@
     
     <style>
         :root { --tblr-primary: #0054a6; }
-        body { font-family: 'Inter', sans-serif; background: #f4f7f9; }
-        .hero { background: #1a2234; color: white; padding: 60px 0; border-bottom: 4px solid var(--tblr-primary); }
-        .status-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-right: 5px; }
-        .online { background: #2fb344; box-shadow: 0 0 10px #2fb344; }
-        .offline { background: #d63939; }
-        .nav-link { font-weight: bold; color: #444 !important; transition: 0.3s; }
-        .nav-link:hover { color: var(--tblr-primary) !important; transform: translateY(-2px); }
-        .ip-box { cursor: pointer; background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; border: 1px dashed #444; }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; }
+        
+        /* Modern Header */
+        .hero { 
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); 
+            color: white; 
+            padding: 80px 0; 
+            text-align: center;
+            border-bottom: 5px solid var(--tblr-primary);
+        }
+
+        .ip-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 16px;
+            display: inline-block;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .ip-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+            border-color: var(--tblr-primary);
+        }
+
+        /* Status Indicators */
+        .status-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-online { background: #22c55e; box-shadow: 0 0 10px #22c55e; }
+        .dot-offline { background: #ef4444; }
+
+        .navbar-nav .nav-link {
+            font-weight: 700;
+            color: #475569 !important;
+            padding: 15px 25px !important;
+        }
+        .navbar-nav .nav-link:hover { color: var(--tblr-primary) !important; }
     </style>
 </head>
 <body>
 
-<div class="hero text-center">
+<div class="hero">
     <div class="container">
-        <h1 class="display-4 fw-bold mb-2">MC SUNUCU ADI</h1>
+        <h1 class="display-3 fw-black mb-2">SUNUCU ADI</h1>
         <div class="mb-4">
-            <span class="badge bg-blue">Sürüm: 1.21.4</span>
-            <span class="badge bg-red">Bedrock: Kapalı</span>
+            <span class="badge bg-primary-lt fs-3 px-3 py-2">SÜRÜM 1.21.4</span>
+            <span class="badge bg-danger-lt fs-3 px-3 py-2 ms-2">JAVA EDITION</span>
         </div>
-        
-        <div class="ip-box d-inline-block" id="copyIp" data-clipboard-text="94.154.46.130">
-            <div class="small opacity-50 text-uppercase">Tıkla IP Kopyala</div>
-            <div class="h3 fw-bold mb-0">94.154.46.130</div>
+
+        <div class="ip-card" id="copyIp" data-clipboard-text="94.154.46.130">
+            <div class="small text-uppercase opacity-50 mb-1">Tıkla IP Kopyala</div>
+            <div class="h1 fw-bold mb-0">94.154.46.130</div>
+            <div class="status-box">
+                <div id="admin-dot" class="dot dot-offline"></div>
+                <span id="admin-status-text" class="small fw-bold text-uppercase">Kurucu Çevrimdışı</span>
+            </div>
         </div>
     </div>
 </div>
 
 <nav class="navbar navbar-expand-md navbar-light bg-white sticky-top shadow-sm">
     <div class="container">
-        <ul class="navbar-nav mx-auto">
-            <li class="nav-item"><a class="nav-link px-4" href="#anasayfa">ANASAYFA</a></li>
-            <li class="nav-item"><a class="nav-link px-4" href="#magaza">MAĞAZA</a></li>
-            <li class="nav-item"><a class="nav-link px-4" href="#forum">FORUM</a></li>
-            <li class="nav-item"><a class="nav-link px-4" href="#destek">DESTEK</a></li>
-        </ul>
+        <div class="navbar-nav mx-auto">
+            <a class="nav-link" href="#anasayfa">ANASAYFA</a>
+            <a class="nav-link" href="#magaza">MAĞAZA</a>
+            <a class="nav-link" href="#forum">FORUM</a>
+            <a class="nav-link" href="#destek">DESTEK</a>
+        </div>
     </div>
 </nav>
 
-<div class="container py-5">
-    <div class="row">
+<div class="container my-5">
+    <div class="row g-4">
         <div class="col-md-8">
-            <div class="card mb-4" id="anasayfa">
-                <div class="card-body">
-                    <h2 class="fw-bold"><i class="fa fa-newspaper me-2"></i> Sunucu Aktif!</h2>
-                    <hr>
-                    <p>Sunucumuz 1.21.4 Java sürümü ile kapılarını açtı. Hemen IP adresini kopyalayarak aramıza katılabilirsin.</p>
+            <div class="card card-md border-0 shadow-sm" id="anasayfa">
+                <div class="card-body py-5 text-center">
+                    <div class="mb-3">
+                        <i class="fa-duotone fa-rocket-launch fa-4x text-primary"></i>
+                    </div>
+                    <h2 class="fw-bold">Maceraya Hazır Mısın?</h2>
+                    <p class="text-muted fs-3">94.154.46.130 adresine bağlanarak hemen oynamaya başla. Bedrock girişleri kapalıdır, sadece Java 1.21.4 ile giriş yapabilirsin.</p>
                 </div>
-            </div>
-            
-            <div class="card bg-primary text-white p-4 mb-4" id="magaza">
-                <h3><i class="fa fa-shopping-cart me-2"></i> Mağaza</h3>
-                <p>Kredi yükleyerek VIP ve diğer avantajlara sahip olabilirsiniz.</p>
-                <button class="btn btn-light fw-bold">Mağazaya Git</button>
             </div>
         </div>
 
         <div class="col-md-4">
-            <div class="card shadow-sm border-0 mb-4">
-                <div class="card-header bg-dark text-white fw-bold">DİSCORD DURUMU</div>
-                <div class="card-body">
-                    <div class="d-flex align-items-center mb-3">
-                        <div id="sw-status" class="status-dot offline"></div>
-                        <div>
-                            <div class="fw-bold">Sunucu Aktifliği</div>
-                            <small id="sw-count" class="text-muted">Yükleniyor...</small>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="d-flex align-items-center">
-                        <div id="admin-status" class="status-dot offline"></div>
-                        <div>
-                            <div class="fw-bold">Kurucu (Admin)</div>
-                            <small id="admin-text" class="text-muted">Çevrimdışı</small>
-                        </div>
-                    </div>
-                    <a href="https://discord.gg/DAVET_LINKI" class="btn btn-outline-primary w-100 mt-3">Discord'a Katıl</a>
+            <div class="card border-0 shadow-sm bg-primary text-white p-4">
+                <h3 class="fw-bold"><i class="fab fa-discord me-2"></i> Discord Aktiflik</h3>
+                <p>Discord Widget ayarın kapalı olsa bile, senin aktifliğini buradan takip ediyoruz.</p>
+                <div id="discord-profile" class="d-flex align-items-center mt-3 p-3 bg-white-10 rounded">
+                    <div id="admin-status-large" class="h4 mb-0 fw-bold">Yükleniyor...</div>
                 </div>
+                <a href="https://discord.gg/DAVET_LINKIN" class="btn btn-light w-100 mt-4 fw-bold">TOPLULUĞA KATIL</a>
             </div>
         </div>
     </div>
@@ -100,37 +123,38 @@
 <script>
     // IP Kopyalama
     new ClipboardJS('#copyIp').on('success', function() {
-        Swal.fire({ title: 'Başarılı!', text: 'IP Kopyalandı: 94.154.46.130', icon: 'success', confirmButtonColor: '#0054a6' });
+        Swal.fire({
+            title: 'Kopyalandı!',
+            text: 'IP adresi başarıyla panoya kopyalandı. Oyuna girip yapıştırabilirsin.',
+            icon: 'success',
+            confirmButtonColor: '#0054a6'
+        });
     });
 
-    // SUNUCU AKTİFLİĞİNİ ÇEKME (Discord API)
-    function updateDiscord() {
-        const swID = "1261942044218359818";
-        const adminID = "812040098388377671";
+    // Widget Olmadan Aktiflik Çekme (Lanyard API)
+    function checkDiscord() {
+        const adminID = "812040098388377671"; // Senin ID'n
 
-        // Sunucu Verisi
-        $.getJSON(`https://discord.com/api/guilds/${swID}/widget.json`, function(data) {
-            $('#sw-status').addClass('online').removeClass('offline');
-            $('#sw-count').text(data.presence_count + " Kişi Çevrimiçi");
-        }).fail(function() {
-            $('#sw-count').text("Widget Ayarı Kapalı!");
-        });
+        $.getJSON(`https://api.lanyard.rest/v1/users/${adminID}`, function(response) {
+            const data = response.data;
+            const status = data.discord_status;
 
-        // Admin (Senin) Aktifliğin - Lanyard API
-        $.getJSON(`https://api.lanyard.rest/v1/users/${adminID}`, function(data) {
-            const status = data.data.discord_status;
-            if(status !== "offline") {
-                $('#admin-status').addClass('online').removeClass('offline');
-                $('#admin-text').text("Şu an Aktif");
+            if (status !== "offline") {
+                $('#admin-dot').addClass('dot-online').removeClass('dot-offline');
+                $('#admin-status-text').text("Kurucu Çevrimiçi");
+                $('#admin-status-large').html('<i class="fa fa-check-circle me-2"></i> Yönetim Aktif');
             } else {
-                $('#admin-status').addClass('offline').removeClass('online');
-                $('#admin-text').text("Çevrimdışı");
+                $('#admin-dot').addClass('dot-offline').removeClass('dot-online');
+                $('#admin-status-text').text("Kurucu Çevrimdışı");
+                $('#admin-status-large').html('<i class="fa fa-moon me-2"></i> Yönetim Uyuyor');
             }
+        }).fail(function() {
+            $('#admin-status-large').text("Veri Alınamadı");
         });
     }
 
-    updateDiscord();
-    setInterval(updateDiscord, 30000); // 30 saniyede bir güncelle
+    checkDiscord();
+    setInterval(checkDiscord, 15000); // 15 saniyede bir kontrol et
 </script>
 
 </body>
