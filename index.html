@@ -3,75 +3,95 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Minecraft Sunucusu | 1.21.4</title>
+    <title>Minecraft Sunucusu | Profesyonel Hub</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/all.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.0/sweetalert2.min.css">
+    
     <style>
-        :root { --p: #0054a6; --bg: #f4f7f9; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); }
-        .hero { background: #001f3f; color: white; padding: 60px 0; border-bottom: 5px solid var(--p); text-align: center; }
+        :root { --p: #0054a6; --bg: #f4f7f9; --dark-card: #1a1d21; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: #333; }
+        .hero { background: linear-gradient(135deg, #001f3f 0%, #0054a6 100%); color: white; padding: 80px 0; position: relative; }
+        .hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 40px; background: var(--bg); clip-path: polygon(0 100%, 100% 100%, 100% 0); }
+        .ip-badge { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 12px 25px; border-radius: 50px; cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; }
+        .navbar { background: rgba(255,255,255,0.9) !important; backdrop-filter: blur(10px); box-shadow: 0 4px 30px rgba(0,0,0,0.05); }
         .nav-link { font-weight: 700; color: #444 !important; cursor: pointer; }
-        .nav-link.active { color: var(--p) !important; }
-        .forum-item { background: white; border-radius: 12px; padding: 15px; margin-bottom: 10px; border-left: 4px solid var(--p); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .sidebar { background: #1a1d21; color: white; border-radius: 20px; padding: 20px; }
-        .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; }
-        .online { background: #2fb344; box-shadow: 0 0 8px #2fb344; }
-        .offline { background: #d63939; }
+        .nav-link.active { color: var(--p) !important; border-bottom: 3px solid var(--p); }
+        .content-card { border: none; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); margin-bottom: 30px; }
+        .post-box { background: #fff; border-radius: 15px; padding: 20px; margin-bottom: 15px; border-left: 5px solid var(--p); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .sidebar-card { background: var(--dark-card); color: white; border-radius: 20px; padding: 25px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+        .dot-online { background: #2fb344; box-shadow: 0 0 10px #2fb344; }
+        .dot-offline { background: #d63939; }
     </style>
 </head>
 <body>
 
-<div class="hero">
-    <h1 class="display-4 fw-bold">SUNUCU ADI</h1>
-    <div class="badge bg-warning text-dark mb-3">BU AKŞAM 20:00'DA AÇILIYOR!</div>
-    <p class="h3" id="copyIp" style="cursor:pointer" data-clipboard-text="94.154.46.130">IP: 94.154.46.130 <i class="fa fa-copy ms-2"></i></p>
+<div class="hero text-center">
+    <div class="container animate__animated animate__fadeIn">
+        <span class="badge bg-warning text-dark mb-3 fw-bold p-2 px-3 shadow">🚀 BU AKŞAM 20:00'DA AÇILIYOR!</span>
+        <h1 class="display-4 fw-extrabold mb-2">SUNUCU ADI</h1>
+        <div class="ip-badge" id="copyIp" data-clipboard-text="94.154.46.130">
+            <i class="fa fa-copy me-2"></i> <span class="h4 mb-0 fw-bold">94.154.46.130</span>
+            <span class="ms-3 badge bg-success" id="heroCount">0/0</span>
+        </div>
+    </div>
 </div>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
+<nav class="navbar navbar-expand-lg sticky-top py-2">
     <div class="container justify-content-center">
         <div class="navbar-nav gap-3">
-            <a class="nav-link active" onclick="showSection('anasayfa')">Anasayfa</a>
-            <a class="nav-link" onclick="showSection('forum')">Forum</a>
-            <a class="nav-link" onclick="showSection('magaza')">Mağaza</a>
+            <a class="nav-link active" onclick="nav('anasayfa')"><i class="fa fa-home-alt me-1"></i> Anasayfa</a>
+            <a class="nav-link" onclick="nav('forum')"><i class="fa fa-comments me-1"></i> Forum</a>
+            <a class="nav-link" onclick="nav('magaza')"><i class="fa fa-shopping-bag me-1"></i> Mağaza</a>
         </div>
     </div>
 </nav>
 
 <div class="container my-5">
     <div class="row">
-        <div class="col-md-8">
-            <div id="sec-anasayfa" class="section">
-                <div class="card p-4 border-0 shadow-sm">
-                    <h2>Hoş Geldiniz!</h2>
-                    <p>Sunucumuz bu akşam kapılarını açıyor. Hazır mısın?</p>
+        <div class="col-lg-8">
+            <div id="anasayfa_sec" class="section_div">
+                <div class="card content-card p-5">
+                    <h2 class="fw-bold mb-4">📰 Son Haberler</h2>
+                    <img src="https://images.unsplash.com/photo-1627375103210-999330965e64?q=80&w=1000" class="img-fluid rounded-4 mb-3">
+                    <h3 class="fw-bold">Hazır mısın?</h3>
+                    <p class="text-muted">Bu akşam açılışta büyük ödüller dağıtılacaktır!</p>
                 </div>
             </div>
 
-            <div id="sec-forum" class="section" style="display:none">
-                <div class="card p-4 border-0 shadow-sm">
-                    <h3>💬 Topluluk Forumu</h3>
-                    <div class="bg-light p-3 rounded mb-4">
-                        <input type="text" id="f_user" class="form-control mb-2" placeholder="Kullanıcı Adın">
-                        <textarea id="f_msg" class="form-control mb-2" placeholder="Mesajın..."></textarea>
-                        <button onclick="sendPost()" class="btn btn-primary w-100">Mesajı Gönder</button>
+            <div id="forum_sec" class="section_div" style="display:none;">
+                <div class="card content-card p-4">
+                    <h2 class="fw-bold mb-4">💬 Oyuncu Mesajları</h2>
+                    <div class="bg-light p-4 rounded-4 mb-4">
+                        <div class="row g-2">
+                            <div class="col-md-4"><input type="text" id="f_user" class="form-control" placeholder="Oyuncu Adın"></div>
+                            <div class="col-md-8"><input type="text" id="f_msg" class="form-control" placeholder="Mesajın..."></div>
+                            <button onclick="submitPost()" class="btn btn-primary w-100 fw-bold mt-2">Mesaj Gönder</button>
+                        </div>
                     </div>
-                    <div id="msg-list">Yükleniyor...</div>
+                    <div id="forum_load" class="text-center p-5 d-none"><div class="spinner-border text-primary"></div></div>
+                    <div id="forum_posts_list"></div>
+                </div>
+            </div>
+            
+            <div id="magaza_sec" class="section_div" style="display:none;">
+                <div class="row g-4 text-center">
+                    <div class="col-md-6"><div class="card content-card p-4"><h3>VIP</h3><p>50 TL</p><button class="btn btn-primary w-100">Satın Al</button></div></div>
+                    <div class="col-md-6"><div class="card content-card p-4"><h3>REPAIR</h3><p>30 TL</p><button class="btn btn-primary w-100">Satın Al</button></div></div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="sidebar shadow-lg">
-                <h5 class="mb-3 border-bottom pb-2">🌐 Sunucu Durumu</h5>
-                <div class="mb-3">
-                    <div id="admin-dot" class="dot offline"></div> Kurucu: <span id="admin-status">...</span>
-                </div>
-                <div class="mb-3 text-success fw-bold">
-                    <i class="fa fa-users me-2"></i> Oyuncu: <span id="side-count">0 / 0</span>
-                </div>
-                <a href="https://discord.gg/XAhyeXNjKr" class="btn btn-primary w-100 rounded-pill">Discord</a>
+        <div class="col-lg-4">
+            <div class="sidebar-card shadow-lg sticky-top" style="top: 100px;">
+                <h4 class="fw-bold mb-4 border-bottom pb-2">📊 Durum</h4>
+                <div class="mb-3"><div id="admin-dot" class="dot dot-offline"></div> <span id="admin-status">KURUCU ÇEVRİMDİŞİ</span></div>
+                <div class="mb-4 text-success fw-bold"><i class="fa fa-users me-2"></i> Aktif: <span id="side-count">0/0</span></div>
+                <a href="https://discord.gg/XAhyeXNjKr" class="btn btn-primary w-100 py-3 fw-bold rounded-pill">DİSCORD</a>
             </div>
         </div>
     </div>
@@ -82,61 +102,63 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.0/sweetalert2.all.min.js"></script>
 
 <script>
-    new ClipboardJS('#copyIp').on('success', () => Swal.fire('IP Kopyalandı!'));
+    new ClipboardJS('#copyIp').on('success', () => Swal.fire('IP Kopyalandı!', '', 'success'));
 
-    function showSection(name) {
-        $('.section').hide();
-        $(`#sec-${name}`).fadeIn();
+    function nav(target) {
+        $('.section_div').hide();
+        $(`#${target}_sec`).fadeIn();
         $('.nav-link').removeClass('active');
-        $(`a[onclick="showSection('${name}')"]`).addClass('active');
-        if(name === 'forum') loadPosts();
+        $(`a[onclick="nav('${target}')"]`).addClass('active');
+        if(target === 'forum') getPosts();
     }
 
-    // API'DEN MESAJLARI ÇEK
-    function loadPosts() {
+    function getPosts() {
+        $('#forum_load').removeClass('d-none');
         $.get('/api/forum', function(data) {
-            let html = '';
+            let h = '';
             data.forEach(p => {
-                html += `<div class="forum-item">
-                    <div class="fw-bold text-primary">${p.username}</div>
-                    <div>${p.content}</div>
-                    <small class="text-muted">${new Date(p.created_at).toLocaleString('tr-TR')}</small>
+                h += `<div class="post-box animate__animated animate__fadeInUp">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <span class="fw-bold text-primary"><i class="fa fa-user-circle me-1"></i> ${p.username}</span>
+                        <small class="text-muted">${new Date(p.created_at).toLocaleTimeString('tr-TR')}</small>
+                    </div>
+                    <div class="fs-5">${p.content}</div>
                 </div>`;
             });
-            $('#msg-list').html(html);
+            $('#forum_posts_list').html(h);
+            $('#forum_load').addClass('d-none');
         });
     }
 
-    // VERİTABANINA MESAJ GÖNDER
-    function sendPost() {
-        const username = $('#f_user').val();
-        const content = $('#f_msg').val();
-        if(!username || !content) return Swal.fire('Hata', 'Boş bırakma!', 'error');
-
+    function submitPost() {
+        const u = $('#f_user').val(), m = $('#f_msg').val();
+        if(!u || !m) return Swal.fire('Hata', 'Tüm alanları doldur!', 'error');
+        
         $.ajax({
-            url: '/api/forum',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({ username, content }),
+            url: '/api/forum', type: 'POST', contentType: 'application/json',
+            data: JSON.stringify({ username: u, content: m }),
             success: function() {
                 $('#f_msg').val('');
-                loadPosts();
-                Swal.fire('Başarılı', 'Mesajın kaydedildi!', 'success');
+                getPosts();
+                Swal.fire('Başarılı!', 'Mesajın gönderildi.', 'success');
             }
         });
     }
 
-    function updateStats() {
+    function sync() {
         $.getJSON('https://api.mcstatus.io/v2/status/java/94.154.46.130', d => {
-            if(d.online) $('#side-count').text(d.players.online + " / " + d.players.max);
+            if(d.online) {
+                let txt = d.players.online + " / " + d.players.max;
+                $('#side-count').text(txt); $('#heroCount').text(txt);
+            }
         });
         $.getJSON('https://api.lanyard.rest/v1/users/812040098388377671', r => {
-            const s = r.data.discord_status;
-            $('#admin-dot').attr('class', 'dot ' + (s !== 'offline' ? 'online' : 'offline'));
-            $('#admin-status').text(s !== 'offline' ? 'AKTİF' : 'ÇEVRİMDİŞİ');
+            let s = r.data.discord_status !== 'offline';
+            $('#admin-dot').attr('class', 'dot ' + (s ? 'dot-online' : 'dot-offline'));
+            $('#admin-status').text(s ? 'KURUCU AKTİF' : 'KURUCU ÇEVRİMDİŞİ');
         });
     }
-    updateStats(); setInterval(updateStats, 20000);
+    sync(); setInterval(sync, 20000);
 </script>
 </body>
 </html>
