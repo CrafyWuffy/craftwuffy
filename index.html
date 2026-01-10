@@ -5,179 +5,153 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Minecraft Sunucusu | 1.21.4</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/all.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.0/sweetalert2.min.css">
     
     <style>
-        :root { --tblr-primary: #0054a6; }
-        body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; scroll-behavior: smooth; }
+        :root { --primary: #0054a6; --dark: #1a2234; }
+        body { font-family: 'Inter', sans-serif; background-color: #f4f7f9; scroll-behavior: smooth; }
         
-        .hero-section {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1627375103210-999330965e64?q=80&w=2070&auto=format&fit=crop');
-            background-size: cover; background-position: center;
-            color: white; padding: 100px 0; border-bottom: 5px solid var(--tblr-primary);
-        }
+        /* Hero & IP Bölümü */
+        .hero { background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1627375103210-999330965e64?q=80&w=2070'); 
+                background-size: cover; color: white; padding: 80px 0; text-align: center; border-bottom: 5px solid var(--primary); }
         
-        .copy-ip-card {
-            background: rgba(255,255,255,0.1); backdrop-filter: blur(5px);
-            padding: 20px; border-radius: 12px; cursor: pointer; transition: 0.3s;
-            border: 1px solid rgba(255,255,255,0.2); display: inline-block;
-        }
-        .copy-ip-card:hover { background: rgba(255,255,255,0.2); transform: translateY(-3px); }
+        .ip-box { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 25px; border-radius: 15px; 
+                  display: inline-block; cursor: pointer; border: 1px dashed rgba(255,255,255,0.3); transition: 0.3s; }
+        .ip-box:hover { transform: translateY(-5px); border-color: var(--primary); background: rgba(255,255,255,0.15); }
 
-        .sticky-top { box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .nav-link { font-weight: 600; color: #444 !important; transition: 0.3s; }
-        .nav-link:hover { color: var(--tblr-primary) !important; }
-
-        section { padding: 80px 0; min-height: 50vh; }
-        .section-title { font-weight: 800; margin-bottom: 40px; position: relative; padding-bottom: 10px; }
-        .section-title::after { content: ''; width: 60px; height: 4px; background: var(--tblr-primary); position: absolute; bottom: 0; left: 0; }
-
-        .bedrock-warning { background: #fee; border-left: 5px solid #d63939; padding: 15px; border-radius: 4px; color: #d63939; font-weight: 600; }
-        
-        .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; }
-        .online { background: #2fb344; box-shadow: 0 0 8px #2fb344; }
+        /* Discord Kartı */
+        .dc-card { background: #23272a; color: white; border-radius: 12px; overflow: hidden; }
+        .status-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+        .online { background: #2fb344; box-shadow: 0 0 10px #2fb344; }
         .offline { background: #d63939; }
+
+        /* Navigasyon */
+        .navbar { background: white !important; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .nav-link { font-weight: 700; color: #333 !important; text-transform: uppercase; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
-    <div class="hero-section text-center">
-        <div class="container">
-            <h1 class="display-3 fw-bold mb-3">DEMO</h1>
-            <p class="fs-2 mb-4">En Gelişmiş 1.21.4 Survival Deneyimi</p>
-            
-            <div class="copy-ip-card" id="copyIp" data-clipboard-text="94.154.46.130">
-                <div class="small text-uppercase opacity-75 mb-1">Tıkla IP Kopyala</div>
-                <div class="h2 fw-bold mb-0 text-primary">94.154.46.130</div>
-                <div class="badge bg-success mt-2">
-                    <i class="fa fa-users me-1"></i> 
-                    <span id="playerCount">Yükleniyor...</span> Oyuncu Aktif
-                </div>
-                <div id="serverStatus" class="small mt-2 text-white-50 text-uppercase">Kontrol Ediliyor...</div>
-            </div>
-            
-            <div class="mt-4">
-                <span class="badge bg-dark p-2 me-2">Sürüm: 1.21.4</span>
-                <span class="badge bg-danger p-2">Bedrock: KAPALI</span>
+<div class="hero">
+    <div class="container">
+        <img id="server-icon" src="" alt="" style="width: 80px; border-radius: 10px; margin-bottom: 20px; display: none;">
+        <h1 class="display-3 fw-black mb-2">SUNUCU ADI</h1>
+        <p class="fs-2 mb-4 opacity-75">1.21.4 Survival Macerası Başladı!</p>
+        
+        <div class="ip-box" id="copyIp" data-clipboard-text="94.154.46.130">
+            <div class="small opacity-50 text-uppercase mb-1">Tıklayıp IP Kopyala</div>
+            <div class="h1 fw-bold mb-0">94.154.46.130</div>
+            <div class="mt-2 fw-bold">
+                <span id="mc-status"><i class="fa fa-spinner fa-spin me-2"></i>Kontrol Ediliyor...</span>
             </div>
         </div>
     </div>
+</div>
 
-    <nav class="navbar navbar-expand-md navbar-light bg-white sticky-top">
-        <div class="container">
-            <div class="collapse navbar-collapse" id="mainNav">
-                <ul class="navbar-nav mx-auto">
-                    <li class="nav-item"><a class="nav-link px-4" href="#"><i class="fa fa-home me-2 text-primary"></i>Anasayfa</a></li>
-                    <li class="nav-item"><a class="nav-link px-4" href="#magaza"><i class="fa fa-shopping-cart me-2 text-primary"></i>Mağaza</a></li>
-                    <li class="nav-item"><a class="nav-link px-4" href="#forum"><i class="fa fa-comments me-2 text-primary"></i>Forum</a></li>
-                    <li class="nav-item"><a class="nav-link px-4" href="#destek"><i class="fa fa-life-ring me-2 text-primary"></i>Destek</a></li>
-                </ul>
-            </div>
+<nav class="navbar navbar-expand-lg navbar-light sticky-top">
+    <div class="container text-center">
+        <div class="navbar-nav mx-auto">
+            <a class="nav-link px-4" href="#">Anasayfa</a>
+            <a class="nav-link px-4" href="#magaza">Mağaza</a>
+            <a class="nav-link px-4" href="#forum">Forum</a>
+            <a class="nav-link px-4" href="#destek">Destek</a>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <section id="anasayfa">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8">
-                    <h2 class="section-title">Son Haberler</h2>
-                    <div class="card shadow-sm mb-4">
-                        <div class="card-body">
-                            <h3 class="card-title fw-bold">1.21.4 Sunucumuz Açıldı!</h3>
-                            <p>En güncel Minecraft sürümü ile kesintisiz bir deneyim sizi bekliyor.</p>
-                            <div class="bedrock-warning mt-3">
-                                <i class="fa fa-ban me-2"></i> Dikkat: Sunucumuza sadece Java Edition ile giriş yapılabilir.
-                            </div>
-                        </div>
+<div class="container my-5">
+    <div class="row g-4">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body p-5">
+                    <h2 class="fw-bold border-bottom pb-3 mb-4">📢 Son Duyurular</h2>
+                    <h3>Sunucumuz Kapılarını Açtı!</h3>
+                    <p>En güncel Minecraft sürümü olan 1.21.4 ile tamamen Java Edition odaklı sunucumuz aktif edildi. 94.154.46.130 IP adresi ile hemen aramıza katılabilirsin.</p>
+                    <div class="alert alert-danger border-0 shadow-sm fw-bold">
+                        <i class="fa fa-exclamation-triangle me-2"></i> Bedrock girişleri şu an kapalıdır.
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="dc-card shadow-lg p-4">
+                <h3 class="fw-bold mb-4"><i class="fab fa-discord text-primary me-2"></i> Discord Aktiflik</h3>
                 
-                <div class="col-md-4">
-                    <h2 class="section-title">Durum</h2>
-                    <div class="card shadow-sm mb-4">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center mb-3">
-                                <div id="admin-dot" class="status-dot offline"></div>
-                                <div>
-                                    <div class="fw-bold">Kurucu (Discord)</div>
-                                    <div id="admin-status" class="small text-muted text-uppercase">Yükleniyor...</div>
-                                </div>
-                            </div>
-                            <hr>
-                            <a href="https://discord.gg/DAVET_LINKIN" class="btn btn-primary w-100">Discord'a Katıl</a>
-                        </div>
+                <div class="d-flex align-items-center mb-4 p-3 bg-black-50 rounded">
+                    <div id="admin-dot" class="status-dot offline"></div>
+                    <div>
+                        <div class="small opacity-50">Sunucu Sahibi</div>
+                        <div id="admin-text" class="fw-bold">Yükleniyor...</div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <section id="magaza" class="bg-light">
-        <div class="container">
-            <h2 class="section-title text-center">Mağaza</h2>
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card p-4 text-center">
-                        <h3>VIP Üyelik</h3>
-                        <div class="h2 fw-bold text-primary my-3">100 TL</div>
-                        <button class="btn btn-outline-primary">Satın Al</button>
+                <div class="d-flex align-items-center p-3 bg-black-50 rounded mb-4">
+                    <div id="mc-dot" class="status-dot offline"></div>
+                    <div>
+                        <div class="small opacity-50">Oyuncu Sayısı</div>
+                        <div id="online-count" class="fw-bold">0 / 0</div>
                     </div>
                 </div>
+
+                <a href="https://discord.gg/XAhyeXNjKr" target="_blank" class="btn btn-primary w-100 fw-bold py-2">SUNUCUYA KATIL</a>
             </div>
         </div>
-    </section>
+    </div>
+</div>
 
-    <section id="forum"><div class="container text-center"><h2 class="section-title">Forum</h2><p>Yakında aktif!</p></div></section>
-    <section id="destek" class="bg-dark text-white"><div class="container text-center"><h2 class="section-title text-white">Destek</h2><p>Bize Discord üzerinden ulaşın.</p></div></section>
+<footer class="py-5 bg-white border-top text-center text-muted">
+    <p>© 2026 Minecraft Sunucusu | IP: 94.154.46.130</p>
+</footer>
 
-    <footer class="py-4 text-center border-top bg-white">
-        <p class="text-muted">© 2026 Sunucu Adı. IP: 94.154.46.130</p>
-    </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.0/sweetalert2.all.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.min.js"></script>
+<script>
+    // IP KOPYALAMA
+    new ClipboardJS('#copyIp').on('success', function() {
+        Swal.fire({ title: 'Başarılı!', text: 'IP Adresi Kopyalandı: 94.154.46.130', icon: 'success' });
+    });
 
-    <script>
-        // IP KOPYALAMA
-        new ClipboardJS('#copyIp').on('success', function() {
-            Swal.fire({ title: 'Başarılı!', text: 'IP Kopyalandı: 94.154.46.130', type: 'success' });
+    function updateAPIs() {
+        const mcIP = "94.154.46.130";
+        const adminID = "812040098388377671";
+
+        // 1. MINECRAFT API (mcsrvstat)
+        $.getJSON(`https://api.mcsrvstat.us/2/${mcIP}`, function(data) {
+            if (data.online) {
+                $('#mc-status').html(`<i class="fa fa-circle text-success me-2"></i>${data.players.online} Oyuncu Aktif`);
+                $('#online-count').text(`${data.players.online} / ${data.players.max}`);
+                $('#mc-dot').addClass('online').removeClass('offline');
+                if(data.icon) { $('#server-icon').attr('src', data.icon).fadeIn(); }
+            } else {
+                $('#mc-status').html(`<i class="fa fa-circle text-danger me-2"></i>Sunucu Kapalı`);
+                $('#online-count').text("0 / 0");
+                $('#mc-dot').addClass('offline').removeClass('online');
+            }
         });
 
-        // MINECRAFT & DISCORD API SISTEMI
-        function updateAllAPIs() {
-            const serverIP = "94.154.46.130";
-            const adminID = "812040098388377671";
+        // 2. DISCORD ADMIN DURUMU (Lanyard - Widget Gerekmez)
+        $.getJSON(`https://api.lanyard.rest/v1/users/${adminID}`, function(res) {
+            const status = res.data.discord_status;
+            if (status !== "offline") {
+                $('#admin-dot').addClass('online').removeClass('offline');
+                $('#admin-text').text("ŞU AN AKTİF");
+            } else {
+                $('#admin-dot').addClass('offline').removeClass('online');
+                $('#admin-text').text("ÇEVRİMDIŞI");
+            }
+        }).fail(function() { $('#admin-text').text("YÜKLENEMEDİ"); });
+    }
 
-            // Minecraft Sunucu Bilgisi
-            $.getJSON(`https://api.mcsrvstat.us/2/${serverIP}`, function(data) {
-                if (data.online) {
-                    $('#playerCount').text(data.players.online + " / " + data.players.max);
-                    $('#serverStatus').text("SUNUCU AKTİF").removeClass('text-danger').addClass('text-success');
-                } else {
-                    $('#playerCount').text("0");
-                    $('#serverStatus').text("SUNUCU KAPALI").addClass('text-danger');
-                }
-            });
-e
-            // Discord Admin Durumu (Lanyard - Widget Gerekmez)
-            $.getJSON(`https://api.lanyard.rest/v1/users/${adminID}`, function(response) {
-                const status = response.data.discord_status;
-                if (status !== "offline") {
-                    $('#admin-dot').addClass('online').removeClass('offline');
-                    $('#admin-status').text("ŞU AN AKTİF");
-                } else {
-                    $('#admin-dot').addClass('offline').removeClass('online');
-                    $('#admin-status').text("ÇEVRİMDIŞI");
-                }
-            }).fail(function() { $('#admin-status').text("HATA"); });
-        }
+    // İlk çalıştırma ve döngü
+    updateAPIs();
+    setInterval(updateAPIs, 30000); // 30 saniyede bir tazele
+</script>
 
-        updateAllAPIs();
-        setInterval(updateAllAPIs, 30000); // 30 saniyede bir güncellee
-    </script>
 </body>
 </html>
