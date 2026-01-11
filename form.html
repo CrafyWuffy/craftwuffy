@@ -2,106 +2,83 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yetkili Başvuru Formu</title>
+    <title>Başvuru Formu</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #36393f; color: #dcddde; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
-        .container { background-color: #2f3136; padding: 30px; border-radius: 10px; box-shadow: 0 8px 25px rgba(0,0,0,0.4); width: 100%; max-width: 500px; }
-        h2 { text-align: center; color: #fff; margin-bottom: 20px; border-bottom: 2px solid #5865f2; padding-bottom: 10px; }
-        .row { display: flex; gap: 15px; }
-        .row div { flex: 1; }
-        label { display: block; margin-bottom: 8px; font-size: 12px; font-weight: bold; text-transform: uppercase; color: #8e9297; }
-        input, textarea { width: 100%; padding: 10px; margin-bottom: 15px; background-color: #202225; border: 1px solid #1e1f22; border-radius: 5px; color: #dcddde; box-sizing: border-box; }
-        input:focus, textarea:focus { border-color: #5865f2; outline: none; }
-        button { width: 100%; padding: 14px; background-color: #5865f2; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold; transition: 0.3s; }
-        button:hover { background-color: #4752c4; }
-        .range-container { margin-bottom: 20px; text-align: center; }
-        .range-val { color: #5865f2; font-size: 18px; font-weight: bold; }
+        body { background: #36393f; color: white; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; }
+        .box { background: #2f3136; padding: 20px; border-radius: 8px; width: 400px; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        input, textarea { width: 100%; padding: 8px; margin: 10px 0; border-radius: 4px; border: none; box-sizing: border-box; background: #202225; color: white; }
+        button { width: 100%; padding: 10px; background: #5865f2; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        button:hover { background: #4752c4; }
+        label { font-size: 13px; color: #b9bbbe; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>YETKİLİ BAŞVURUSU</h2>
-    <form id="basvuruFormu">
-        <div class="row">
-            <div>
-                <label>Adınız</label>
-                <input type="text" id="ad" placeholder="Ahmet" required>
-            </div>
-            <div>
-                <label>Yaşınız</label>
-                <input type="number" id="yas" placeholder="18" required>
-            </div>
-        </div>
+<div class="box">
+    <form id="applyForm">
+        <label>İsim / Yaş</label>
+        <input type="text" id="ad_yas" placeholder="Ahmet / 18" required>
 
-        <div class="row">
-            <div>
-                <label>Discord Kullanıcı Adı</label>
-                <input type="text" id="dc_ad" placeholder="kullanici#0000" required>
-            </div>
-            <div>
-                <label>Minecraft Adı (IGN)</label>
-                <input type="text" id="mc_ad" placeholder="Steve_TR" required>
-            </div>
-        </div>
+        <label>Discord Adı</label>
+        <input type="text" id="dc_ad" placeholder="kullanici#0000" required>
 
-        <label>Günlük Ortalama Aktiflik</label>
-        <input type="text" id="aktiflik" placeholder="Örn: Hafta içi 4, hafta sonu 8 saat" required>
+        <label>Minecraft Adı</label>
+        <input type="text" id="mc_ad" placeholder="Steve" required>
 
-        <label>Komut Bilginiz</label>
-        <div class="range-container">
-            <input type="range" id="komut" min="1" max="10" value="5" oninput="this.nextElementSibling.innerText = this.value">
-            <span class="range-val">5</span> <span style="color:#8e9297">/ 10</span>
-        </div>
+        <label>Aktiflik Saati</label>
+        <input type="text" id="aktiflik" placeholder="Günde 5 saat" required>
 
-        <label>Neden Bizi Seçtiniz?</label>
-        <textarea id="neden" rows="2" required></textarea>
+        <label>Komut Bilgisi (1-10)</label>
+        <input type="number" id="komut" min="1" max="10" value="5" required>
 
-        <label>Bildiğiniz Bilinmeyen Komutlar</label>
-        <textarea id="bilinmeyen" rows="2" placeholder="Plugin komutları vb."></textarea>
+        <label>Neden Biz / Bildiğin Komutlar</label>
+        <textarea id="mesaj" rows="4" required></textarea>
 
-        <button type="submit">Başvuruyu Tamamla</button>
+        <button type="submit" id="btn">Gönder</button>
     </form>
 </div>
 
 <script>
-    document.getElementById('basvuruFormu').addEventListener('submit', function(e) {
+    document.getElementById('applyForm').addEventListener('submit', function(e) {
         e.preventDefault();
+        const btn = document.getElementById('btn');
+        btn.innerText = "Gönderiliyor...";
+        btn.disabled = true;
 
-        // Buradaki linki güncel tutun
-        const webhookURL = "BURAYA_WEBHOOK_URL_GELECEK";
+        // Senin verdiğin Webhook URL'si
+        const webhook = "https://discord.com/api/webhooks/1459855084673433711/serp5cDvmwudVGnB1ZXO2sN3fUNGWe5aGW2LnymIVZM6jO8kKsopVIdPq_KUnDJ5ArDO";
 
-        const payload = {
-            username: "Başvuru Botu",
-            avatar_url: "https://minotar.net/avatar/" + document.getElementById('mc_ad').value, // MC kafasını profil resmi yapar
+        const data = {
+            content: "📢 **Yeni Bir Başvuru Geldi!**",
             embeds: [{
-                title: "🟢 Yeni Başvuru Formu İletildi",
-                color: 3066993, // Yeşil renk
+                color: 5763719,
                 fields: [
-                    { name: "👤 İsim / Yaş", value: `${document.getElementById('ad').value} (${document.getElementById('yas').value})`, inline: true },
-                    { name: "🎮 Minecraft Adı", value: `\`${document.getElementById('mc_ad').value}\``, inline: true },
+                    { name: "👤 İsim / Yaş", value: document.getElementById('ad_yas').value, inline: true },
                     { name: "💬 Discord", value: document.getElementById('dc_ad').value, inline: true },
+                    { name: "🎮 MC Adı", value: document.getElementById('mc_ad').value, inline: true },
                     { name: "⏰ Aktiflik", value: document.getElementById('aktiflik').value, inline: true },
-                    { name: "🛠 Komut Bilgisi", value: `**${document.getElementById('komut').value} / 10**`, inline: true },
-                    { name: "📝 Neden Biz?", value: document.getElementById('neden').value },
-                    { name: "🔎 Özel Komutlar", value: document.getElementById('bilinmeyen').value || "Belirtilmemiş" }
+                    { name: "🛠 Komut", value: document.getElementById('komut').value + "/10", inline: true },
+                    { name: "📄 Detaylar", value: document.getElementById('mesaj').value }
                 ],
-                footer: { text: "Sistem Tarihi" },
                 timestamp: new Date()
             }]
         };
 
-        fetch(webhookURL, {
+        fetch(webhook, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        }).then(() => {
-            alert('Başvuru başarıyla Discord kanalına gönderildi!');
-            document.getElementById('basvuruFormu').reset();
-        }).catch(err => {
-            alert('Hata! Webhook linkini kontrol edin.');
+            body: JSON.stringify(data)
+        })
+        .then(() => {
+            alert("Başarıyla gönderildi!");
+            btn.innerText = "Gönder";
+            btn.disabled = false;
+            document.getElementById('applyForm').reset();
+        })
+        .catch(err => {
+            alert("Hata oluştu! Konsolu (F12) kontrol edin.");
             console.error(err);
+            btn.disabled = false;
         });
     });
 </script>
