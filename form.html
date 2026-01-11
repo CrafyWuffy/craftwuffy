@@ -3,65 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Başvuru Formu</title>
+    <title>Yetkili Başvuru Formu</title>
     <style>
-        body { font-family: sans-serif; background-color: #2c2f33; color: white; display: flex; justify-content: center; padding: 20px; }
-        .form-container { background: #23272a; padding: 30px; border-radius: 8px; width: 100%; max-width: 500px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        h2 { text-align: center; color: #7289da; }
-        label { display: block; margin-top: 15px; margin-bottom: 5px; font-weight: bold; }
-        input, textarea, select { width: 100%; padding: 10px; border-radius: 4px; border: none; margin-bottom: 10px; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background-color: #7289da; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-top: 20px; }
-        button:hover { background-color: #5b6eae; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #36393f; color: #dcddde; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { background-color: #2f3136; padding: 40px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); width: 100%; max-width: 450px; }
+        h2 { text-align: center; color: #fff; margin-bottom: 25px; }
+        label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600; text-transform: uppercase; color: #b9bbbe; }
+        input, textarea, select { width: 100%; padding: 10px; margin-bottom: 20px; background-color: #202225; border: 1px solid #202225; border-radius: 3px; color: #dcddde; outline: none; transition: border 0.2s; }
+        input:focus, textarea:focus { border-color: #7289da; }
+        button { width: 100%; padding: 12px; background-color: #5865f2; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 16px; font-weight: bold; transition: background-color 0.2s; }
+        button:hover { background-color: #4752c4; }
+        .range-val { text-align: center; display: block; margin-top: -15px; margin-bottom: 15px; color: #7289da; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="form-container">
-    <h2>Yetkili Başvuru Formu</h2>
-    <form id="basvuruFormu">
+<div class="container">
+    <h2>Başvuru Formu</h2>
+    <form id="discordForm">
         <label>Adınız</label>
-        <input type="text" id="ad" placeholder="Örn: Ahmet" required>
+        <input type="text" id="ad" placeholder="Adınızı giriniz" required>
 
         <label>Yaşınız</label>
         <input type="number" id="yas" required>
 
         <label>Ortalama Kaç Saat Aktifsiniz?</label>
-        <input type="text" id="aktiflik" placeholder="Örn: Günde 5 saat" required>
+        <input type="text" id="aktiflik" placeholder="Örn: 4-6 Saat" required>
 
         <label>Komut Bilginiz (1-10)</label>
-        <input type="range" id="komut" min="1" max="10" value="5" oninput="this.nextElementSibling.value = this.value">
-        <output>5</output>
+        <input type="range" id="komut" min="1" max="10" value="5" oninput="this.nextElementSibling.innerText = this.value">
+        <span class="range-val">5</span>
 
         <label>Neden Bizi Seçtiniz?</label>
         <textarea id="neden" rows="3" required></textarea>
 
         <label>Bildiğiniz Bilinmeyen Komutlar</label>
-        <textarea id="bilinmeyen" rows="3" placeholder="Örn: /hidden-admin-tool"></textarea>
+        <textarea id="bilinmeyen" rows="3" placeholder="Sadece sizin bildiğiniz özel komutlar..."></textarea>
 
         <button type="submit">Başvuruyu Gönder</button>
     </form>
 </div>
 
 <script>
-    document.getElementById('basvuruFormu').addEventListener('submit', function(e) {
+    document.getElementById('discordForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
-        // BURAYA DİKKAT: Discord'dan aldığınız Webhook URL'sini buraya yapıştırın
-        const webhookURL = "YOUR_DISCORD_WEBHOOK_URL_HERE";
+        // PAYLAŞTIĞINIZ WEBHOOK URL (Güvenliğiniz için bunu yenileyin!)
+        const webhookURL = "https://discord.com/api/webhooks/1459855084673433711/serp5cDvmwudVGnB1ZXO2sN3fUNGWe5aGW2LnymIVZM6jO8kKsopVIdPq_KUnDJ5ArDO";
 
-        const mesaj = {
+        const data = {
             embeds: [{
-                title: "Yeni Başvuru Geldi!",
-                color: 7506394,
+                title: "📩 Yeni Yetkili Başvurusu",
+                color: 5814783, // Discord Mavisi
                 fields: [
-                    { name: "Ad", value: document.getElementById('ad').value, inline: true },
-                    { name: "Yaş", value: document.getElementById('yas').value, inline: true },
-                    { name: "Aktiflik", value: document.getElementById('aktiflik').value },
-                    { name: "Komut Bilgisi", value: document.getElementById('komut').value + "/10" },
-                    { name: "Neden Biz?", value: document.getElementById('neden').value },
-                    { name: "Bilinmeyen Komutlar", value: document.getElementById('bilinmeyen').value || "Belirtilmedi" }
+                    { name: "👤 İsim", value: document.getElementById('ad').value, inline: true },
+                    { name: "🎂 Yaş", value: document.getElementById('yas').value, inline: true },
+                    { name: "⏳ Aktiflik Süresi", value: document.getElementById('aktiflik').value, inline: false },
+                    { name: "💻 Komut Bilgisi", value: document.getElementById('komut').value + "/10", inline: true },
+                    { name: "❓ Neden Biz?", value: document.getElementById('neden').value, inline: false },
+                    { name: "🔍 Bilinmeyen Komutlar", value: document.getElementById('bilinmeyen').value || "Yok", inline: false }
                 ],
-                footer: { text: "Web Form Sisteminden Gönderildi" },
+                footer: { text: "Web Başvuru Sistemi" },
                 timestamp: new Date()
             }]
         };
@@ -69,12 +71,12 @@
         fetch(webhookURL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(mesaj)
+            body: JSON.stringify(data)
         }).then(() => {
-            alert('Başvurunuz başarıyla iletildi!');
-            document.getElementById('basvuruFormu').reset();
+            alert('Başvurunuz Discord üzerinden başarıyla iletildi!');
+            document.getElementById('discordForm').reset();
         }).catch(err => {
-            alert('Bir hata oluştu, lütfen tekrar deneyin.');
+            alert('Gönderim sırasında bir hata oluştu.');
             console.error(err);
         });
     });
